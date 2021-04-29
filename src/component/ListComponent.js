@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link, Route, BrowserRouter as Router } from "react-router-dom";
-import React, { Component, createContext } from "react";
+import React, { Component, useContext } from "react";
 import ListHeader from "./ListHeader";
 import { FaEye } from "react-icons/fa";
 import { FaRegThumbsUp } from "react-icons/fa";
@@ -8,7 +8,7 @@ import { BsChatDots } from "react-icons/bs";
 import { BsBookmark } from "react-icons/bs";
 import useStores from "../hooks/useStores";
 import { useObserver } from "mobx-react";
-const ListComponent = ({ content, index }) => {
+const ListComponent = ({ content, index,clickTopic }) => {
   const { contentStore } = useStores();
   const handleClick = () => {
     contentStore.setClickContentIndex(index);

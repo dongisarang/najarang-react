@@ -2,7 +2,7 @@
 
 import styled from 'styled-components';
 import { Link, Route, BrowserRouter as Router } from 'react-router-dom';
-import React, { Component, useEffect, useState, useCallback } from 'react';
+import React, { Component, useEffect, useState, useCallback,useContext } from 'react';
 import ListHeader from './ListHeader';
 import { FaEye } from 'react-icons/fa';
 import { FaRegThumbsUp } from 'react-icons/fa';
@@ -13,6 +13,7 @@ import { AiOutlineClockCircle } from 'react-icons/ai';
 import { useObserver } from 'mobx-react';
 import useStores from '../hooks/useStores';
 import { Button, Input, Select } from 'antd';
+import ListContext from '../contexts/listContext';
 import { values } from 'mobx';
 const { Option } = Select;
 const { TextArea } = Input;
@@ -28,10 +29,23 @@ const ListRead = () => {
         title: '',
         contents: '',
     });
+    // const [content,setContent] = useState([]);
+    // const [index,setIndex] = useState([]);
+    // const [list,setList] = useState([]);
+    // const {topicName,setTopicName} = useContext(ListContext);
     useEffect(() => {
         setUser(contentStore.getUserEmail());
+        function settingList(){
+            // const list = contentStore.getContentList();
+            // const index = contentStore.getClickContentIndex();
+            // setList(contentStore.getContentList().filter((content)=>content.topic.name === contentStore.currentTopic))
+            // setIndex(contentStore.getClickContentIndex());
+            // setContent(list[index])
+        }
+        settingList();
     }, []);
-    const list = contentStore.getContentList();
+    //TODO: useEffect로 초기화할때 함수로 넣어주기
+    const list = contentStore.getContentList().filter((content)=>content.topic.name === contentStore.currentTopic);
     const index = contentStore.getClickContentIndex();
     const content = list[index];
     console.log('content', content);
@@ -132,7 +146,7 @@ const ListRead = () => {
                             <span>{content?.hit_count}</span>
                             <BsChatDots className='reply'></BsChatDots>
                             <span>{content?.like_count}</span>
-                            {user === content?.user.email && (
+                            {user === content?.user?.email && (
                                 <div
                                     style={{
                                         display: 'flex',

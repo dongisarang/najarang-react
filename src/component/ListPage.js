@@ -2,7 +2,7 @@
 
 import styled from 'styled-components';
 import { Link, Route, BrowserRouter as Router } from 'react-router-dom';
-import React, { Component, useState, useEffect, useCallback } from 'react';
+import React, { Component, useState, useEffect, useCallback,useContext } from 'react';
 import ListHeader from './ListHeader';
 import { FaEye } from 'react-icons/fa';
 import { FaRegThumbsUp } from 'react-icons/fa';
@@ -12,6 +12,7 @@ import useStores from '../hooks/useStores';
 import { useObserver } from 'mobx-react';
 import ListComponent from './ListComponent';
 import { Tabs } from 'antd';
+import ListContext from '../contexts/listContext'
 /*
 TODO: 탭에서 defaultActiveKey 안됨 
 */
@@ -24,6 +25,7 @@ const ListPage = () => {
     const [clickTopic, setClickTopic] = useState(
         contentStore.selectTopic.split('_')[0]
     );
+    const {topicName,setTopicName} = useContext(ListContext);
     //토픽에 애초에 본인이 선택한 토픽만 나오도록 해야함
     useEffect(() => {
         async function fetchContent() {
@@ -33,9 +35,12 @@ const ListPage = () => {
         }
         fetchContent();
         setTopic(contentStore.topicList); //토픽 리스트 셋팅
+        contentStore.currentTopic = contentStore.selectTopic.split('_')[0]
     }, []);
     const handleTabChange = useCallback((activeKey) => {
         setClickTopic(activeKey.split('_')[0]);
+        setTopicName(activeKey.split('_')[0])
+        contentStore.currentTopic = activeKey.split('_')[0];
     }, []);
     return useObserver(() => {
         return (
@@ -54,7 +59,7 @@ const ListPage = () => {
                                                     data.topic.name ===
                                                     clickTopic
                                             )
-                                            .map((data) => {
+                                            .map((data,idx) => {
                                                 return (
                                                     <ListViewLayout>
                                                         <MainLayout>
@@ -64,8 +69,9 @@ const ListPage = () => {
                                                                         data
                                                                     }
                                                                     index={
-                                                                        index
-                                                                    }></ListComponent>
+                                                                        idx
+                                                                    }
+                                                                    clickTopic={clickTopic}></ListComponent>
                                                             </Link>
                                                         </MainLayout>
                                                     </ListViewLayout>

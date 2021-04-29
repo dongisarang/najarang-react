@@ -10,6 +10,7 @@ import SignUpPage from "./component/SignUpPage";
 import { Link, Route, BrowserRouter as Router } from "react-router-dom";
 import useStores from "./hooks/useStores";
 import { observer, useObserver } from "mobx-react";
+import ListProvider from '../src/component/ListProvider'
 import "antd/dist/antd.css"; // css를 가져온다
 const App = () => {
   const { UserStore } = useStores();
@@ -41,20 +42,22 @@ const App = () => {
         <Route path="/login" component={LoginPage} exact={true} />
         <Route
           path="/list"
-          render={(props) => {
-            return <ListPage />;
-          }}
           exact={true}
-        />
+        >
+          <ListProvider>
+            <ListPage />
+          </ListProvider>
+        </Route>
         <Route path="/signup" component={SignUpPage} exact={true} />
         <Route path="/createContent" component={CreateContent} exact={true} />
         <Route
           path="/listRead"
-          render={(props) => {
-            return <ListRead />;
-          }}
           exact={true}
-        />
+        >
+          <ListProvider>
+            <ListRead />
+          </ListProvider>
+        </Route>
       </Router>
     );
   });
