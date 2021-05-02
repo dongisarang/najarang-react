@@ -46,11 +46,15 @@ const ListPage = () => {
         return (
             <ListLayout>
                 <CategoryLayout>
-                    <Tabs defaultActiveKey='a_2' onChange={handleTabChange}>
+                    <TabWapper defaultActiveKey='a_2' onChange={handleTabChange} centered >
                         {topic &&
                             topic.map((item, index) => (
                                 <TabPane
-                                    tab={item.name}
+                                    tab={
+                                        <span style={{display:"flex",justifyContent:"center",textAlign:"center"}}>
+                                            {item.name}
+                                        </span>    
+                                        }
                                     key={`${item.name}_${index}`}>
                                     {tabContent &&
                                         tabContent
@@ -79,7 +83,7 @@ const ListPage = () => {
                                             })}
                                 </TabPane>
                             ))}
-                    </Tabs>
+                    </TabWapper>
                 </CategoryLayout>
             </ListLayout>
         );
@@ -136,7 +140,6 @@ const CategoryLayout = styled.div`
     display: flex;
     margin-left: 100px;
     margin-right: 100px;
-
     p {
         flex: 1;
         border-bottom: 1px solid black;
@@ -145,4 +148,23 @@ const CategoryLayout = styled.div`
         align-items: center;
     }
 `;
+const TabWapper = styled(Tabs)`
+    width: auto;
+    flex:display;
+    flex-direction:row;
+    justify-content:center;
+    text-align:center;
+
+    .ant-tabs-tab.ant-tabs-tab-active {
+    border-bottom: 2px solid #8885a4 !important;
+    z-index: 2;
+    }
+    .ant-tabs-tab{
+        width:10rem;
+        text-align:center;
+        display:flex;
+        justify-content:center;
+    }
+    
+`
 export default ListPage;
