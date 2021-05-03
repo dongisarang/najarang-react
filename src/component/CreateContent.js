@@ -32,7 +32,7 @@ const CreateContent = ({ visible, onCancle }) => {
     const handleCancle = () => {
         onCancle();
     };
-    const handleCreate = () => {
+    const handleCreate = async() => {
         //TODO: 내용 등록할때
         const queryObj = {
             title: title,
@@ -42,11 +42,12 @@ const CreateContent = ({ visible, onCancle }) => {
         //console.log("content: ", queryObj);
         const token = UserStore.getUserToken();
         try {
-            const response = axios.post('/board', queryObj, {
+            const response = await axios.post('/board', queryObj, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
+            console.log(response)
             if (response.msg === 'success') {
                 alert('성공!');
                 onCancle();

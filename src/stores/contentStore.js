@@ -36,6 +36,15 @@ const contentStore = observable({
         }
         return false;
     },
+    async deleteContent(boarderId){
+        const response = await contentRepository.boardDelete(
+            boarderId
+        );
+        if (response.data.msg === 'success') {
+            return true;
+        }
+        return false;
+    },
     getTopicList() {
         return this.topicList;
     },
@@ -45,9 +54,10 @@ const contentStore = observable({
     getSelectList() {
         return this.selectList;
     },
-    async setContentList() {
-        const response = await contentRepository.boardsGet();
+    async setContentList(topicId) {
+        const response = await contentRepository.boardsGet(topicId);
         if (response.data.msg === 'success') {
+            console.log('response.data.list:',response.data.list)
             this.contentList = response.data.list;
             return this.contentList;
         }

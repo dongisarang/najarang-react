@@ -15,6 +15,7 @@ import useStores from '../hooks/useStores';
 import { Button, Input, Select } from 'antd';
 import ListContext from '../contexts/listContext';
 import { values } from 'mobx';
+import { useHistory } from "react-router-dom";
 const { Option } = Select;
 const { TextArea } = Input;
 /*
@@ -29,6 +30,7 @@ const ListRead = () => {
         title: '',
         contents: '',
     });
+    const history = useHistory();
     // const [content,setContent] = useState([]);
     // const [index,setIndex] = useState([]);
     // const [list,setList] = useState([]);
@@ -53,21 +55,23 @@ const ListRead = () => {
         setModify(true);
     }, []);
     const handleModifyClick = useCallback(async () => {
-        console.log('inputs :', inputs);
+        const token = UserStore.getUserToken();
         const obj = {
-            id: 1,
-            title: '아아아',
-            content: '내용',
-            topicId: 1,
-            likeCount: null,
-            hitCount: null,
+            id: content.id,
+            title: inputs.title,
+            content: inputs.contents,
+            topicId: inputs.topic,
         };
         //   {
         //     ...content,
         //     inputs,
         // }
-        const data = await contentStore.modifyContent(content.id, obj);
-    }, []);
+        const data = await contentStore.modifyContent(content.id,obj,{
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    }, [inputs]);
     const handleModifyCancel = useCallback(() => {
         setModify(false);
     }, []);
@@ -78,15 +82,26 @@ const ListRead = () => {
             [name]: value,
         });
     };
+    const handleContentChange = (e) =>{
+        const { value } = e.target;
+        setInputs({
+            ...inputs,
+            contents:value
+        })
+    }
     const handleSelectChange = (value) => {
         setInputs({
             ...inputs,
             topic: value,
         });
     };
-    useEffect(() => {
-        console.log('input:', inputs);
-    }, [inputs]);
+    const handleDelete = useCallback(async()=>{
+        const data = await contentStore.deleteContent(content.id);
+        if(data){
+            //성공했을시
+            history.push("/list");
+        }
+    },[])
     return useObserver(() => {
         return (
             <PageLayout>
@@ -118,7 +133,7 @@ const ListRead = () => {
                             <TextArea
                                 name='contents'
                                 rows={30}
-                                onChange={handleChange}
+                                onChange={handleContentChange}
                                 // value={contents}
                             />
                         </ContentsLayout>
@@ -155,7 +170,7 @@ const ListRead = () => {
                                     <ButtonComponent onClick={handleModify}>
                                         수정
                                     </ButtonComponent>
-                                    <ButtonComponent>삭제</ButtonComponent>
+                                    <ButtonComponent onClick={handleDelete}>삭제</ButtonComponent>
                                 </div>
                             )}
                         </TimeLayout>

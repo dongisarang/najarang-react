@@ -29,7 +29,7 @@ const ListPage = () => {
     //토픽에 애초에 본인이 선택한 토픽만 나오도록 해야함
     useEffect(() => {
         async function fetchContent() {
-            const data = await contentStore.setContentList();
+            const data = await contentStore.setContentList(contentStore.selectTopic.split('_')[1]);
             setContent(data);
             setTabContent(data);
         }
@@ -42,6 +42,9 @@ const ListPage = () => {
         setTopicName(activeKey.split('_')[0])
         contentStore.currentTopic = activeKey.split('_')[0];
     }, []);
+    useEffect(()=>{
+        console.log('tabContent: ',tabContent)
+    },[tabContent])
     return useObserver(() => {
         return (
             <ListLayout>
@@ -50,37 +53,26 @@ const ListPage = () => {
                         {topic &&
                             topic.map((item, index) => (
                                 <TabPane
-                                    tab={
-                                        <span style={{display:"flex",justifyContent:"center",textAlign:"center"}}>
-                                            {item.name}
-                                        </span>    
-                                        }
-                                    key={`${item.name}_${index}`}>
-                                    {tabContent &&
-                                        tabContent
-                                            .filter(
-                                                (data) =>
-                                                    data.topic.name ===
-                                                    clickTopic
-                                            )
-                                            .map((data,idx) => {
-                                                return (
-                                                    <ListViewLayout>
-                                                        <MainLayout>
-                                                            <Link to='/listRead'>
-                                                                <ListComponent
-                                                                    content={
-                                                                        data
-                                                                    }
-                                                                    index={
-                                                                        idx
-                                                                    }
-                                                                    clickTopic={clickTopic}></ListComponent>
-                                                            </Link>
-                                                        </MainLayout>
-                                                    </ListViewLayout>
-                                                );
-                                            })}
+                                    tab={item.name}
+                                    key={`${item.name}_${index+1}`}>
+                                    {tabContent && tabContent.map((data,idx)=>{
+                                        return (
+                                            <ListViewLayout>
+                                                <MainLayout>
+                                                    <Link to='/listRead'>
+                                                        <ListComponent
+                                                            content={
+                                                                data
+                                                            }
+                                                            index={
+                                                                idx
+                                                            }
+                                                            clickTopic={clickTopic}></ListComponent>
+                                                    </Link>
+                                                </MainLayout>
+                                            </ListViewLayout>
+                                        );
+                                    })}
                                 </TabPane>
                             ))}
                     </TabWapper>
@@ -151,8 +143,9 @@ const CategoryLayout = styled.div`
 const TabWapper = styled(Tabs)`
     width: auto;
     flex:display;
-    flex-direction:row;
+    flex-direction:column;
     justify-content:center;
+    align-items:center;
     text-align:center;
 
     .ant-tabs-tab.ant-tabs-tab-active {

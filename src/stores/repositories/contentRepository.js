@@ -3,13 +3,23 @@
 import axios from 'axios';
 
 const contentRepository = {
-    boardsGet: async () => {
-        try {
-            const response = await axios.get('/boards');
-            return response;
-        } catch (error) {
-            throw Error(error);
-            return false;
+    boardsGet: async (topicId) => {
+        if(topicId){
+            try {
+                const response = await axios.get(`/boards?topicId=${topicId}`);
+                return response;
+            } catch (error) {
+                throw Error(error);
+                return false;
+            }
+        }else{
+            try {
+                const response = await axios.get(`/boards`);
+                return response;
+            } catch (error) {
+                throw Error(error);
+                return false;
+            }
         }
     },
     boardGet: async (boarderId) => {

@@ -69,7 +69,7 @@ const TopLayout = () => {
               <Link to="/list">
                 <TopicCircle
                   onClick={() => {
-                    handleTopicClick(topic.name, index);
+                    handleTopicClick(topic.name, index+1);
                   }}
                 >
                   {topic.name}
