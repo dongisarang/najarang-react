@@ -16,6 +16,8 @@ import { Button, Input, Select } from 'antd';
 import ListContext from '../contexts/listContext';
 import { values } from 'mobx';
 import { useHistory } from "react-router-dom";
+import {FieldTimeOutlined,EyeOutlined,MessageOutlined,LikeOutlined} from '@ant-design/icons';
+
 const { Option } = Select;
 const { TextArea } = Input;
 /*
@@ -146,7 +148,7 @@ const ListRead = () => {
                 {modify === false && (
                     <>
                         <CategoryLayout>
-                            <span>토픽</span>
+                            <span>{content?.topic?.name}</span>
                         </CategoryLayout>
                         <TitleLayout>
                             <h1>{content?.title}</h1>
@@ -155,12 +157,12 @@ const ListRead = () => {
                             <span>{content?.user_id}</span>
                         </UserLayout>
                         <TimeLayout>
-                            <AiOutlineClockCircle></AiOutlineClockCircle>
+                            <FieldTimeOutlined style={{margin:"0.3rem 0rem 0rem 1.3rem"}}/>
                             <span>{content?.created}</span>
-                            <FaEye className='eye'></FaEye>
-                            <span>{content?.hit_count}</span>
-                            <BsChatDots className='reply'></BsChatDots>
-                            <span>{content?.like_count}</span>
+                            <EyeOutlined style={{margin:"0.3rem 0rem 0rem 0.3rem"}}/>
+                            <span>{!content?.hit_count ? '0' : content?.hit_count}</span>
+                            <MessageOutlined style={{margin:"0.3rem 0rem 0rem 0.3rem"}}/>
+                            <span>{!content?.like_count ? '0': content?.like_count}</span>
                             {user === content?.user?.email && (
                                 <div
                                     style={{
@@ -198,12 +200,25 @@ const CategoryLayout = styled.div`
     flex-direction: row;
     margin: 20px 0px 1px 20px;
     span {
+        width: 3rem;
+        display:flex;
+        justify-content:center;
+        border: 0px solid #8885a4;
+        border-radius: 5px;
+        background-color: #ffb367;
+        padding: 4px;
+        margin:0.6rem 0rem 0rem 1.4rem;
+        font-size: 12px;
+        color: #ffffff;
     }
 `;
 const TitleLayout = styled.div`
     display: flex;
     flex-direction: row;
-    margin: 20px 0px 1px 20px;
+    margin: 1rem 0rem 0rem 2.3rem;
+    font-family: 1.2em "Fira Sans", sans-serif;
+    font-weight: bold;
+
 `;
 const UserLayout = styled.div`
     display: flex;
@@ -223,27 +238,26 @@ const TimeLayout = styled.div`
     flex-direction: row;
     margin: 0px 0px 0px 20px;
     padding: 0px 0px 20px 0px;
-    border-bottom: 1px solid;
-    span {
-        font-size: 1px;
-        margin: 0px 0px 0px 5px;
-    }
-    .eye {
-        margin: 0px 0px 0px 15px;
-    }
-    .reply {
-        margin: 0px 0px 0px 15px;
+    border-bottom: 1px solid #d3d3d3;
+    width: 100rem;
+    span{
+        font-family: 1.2em "Fira Sans", sans-serif;
+        color: #a9a9a9;
+        margin: 0rem 0rem 0rem 0.3rem;
     }
 `;
 const ContentsLayout = styled.div`
     display: flex;
     flex-direction: column;
     margin: 0px 0px 10px 20px;
-    height: 100px;
-    border-bottom: 1px solid;
+    height: 15rem;
+    width: 100rem;
+    border-bottom: 1px solid #d3d3d3;
+    font-family: 1.2em "Fira Sans", sans-serif;
+
     span {
         margin: 20px 0px 10px 20px;
-        font-size: 10px;
+        font-size: 15px;
     }
 `;
 export default ListRead;

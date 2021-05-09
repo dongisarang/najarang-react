@@ -8,6 +8,7 @@ import { BsChatDots } from "react-icons/bs";
 import { BsBookmark } from "react-icons/bs";
 import useStores from "../hooks/useStores";
 import { useObserver } from "mobx-react";
+import {EyeOutlined,MessageOutlined,LikeOutlined} from '@ant-design/icons';
 const ListComponent = ({ content, index,clickTopic }) => {
   const { contentStore } = useStores();
   const handleClick = () => {
@@ -15,57 +16,51 @@ const ListComponent = ({ content, index,clickTopic }) => {
   };
   return useObserver(() => {
     return (
-      <>
-        <p>카테고리</p>
-        <h2 onClick={() => handleClick()}>{content.title}</h2>
-        <h4>{content.content}</h4>
-        <h5>{content.user_id}</h5>
-        <div className="row">
-          <FaEye></FaEye>
-          <h5>{content?.hit_count}</h5>
-          <FaRegThumbsUp></FaRegThumbsUp>
-          <h5>{content?.like_count}</h5>
-          <BsChatDots></BsChatDots>
-          <h5>{content?.hit_count}</h5>
-          <h5 className="icon">2시간</h5>
-          <BsBookmark className="bookMark"></BsBookmark>
+      <ContentLayout>
+        <p>{content.topic.name}</p>
+        <h2 onClick={() => handleClick()} style={{margin:"0.5rem 0rem 0rem 1rem"}}>{content.title}</h2>
+        <h4 style={{margin:"0.5rem 0rem 0rem 1rem"}}>
+          {content.content}
+          </h4>
+        <div className="iconDiv">
+          <LikeOutlined style={{margin:"0.3rem 0rem 0rem 0rem"}}/>
+          <h5 className="iconClass">{!content?.like_count ? '0' : content?.like_count}</h5>
+          <MessageOutlined style={{margin:"0.3rem 0rem 0rem 0rem"}}/>
+          <h5 className="iconClass">{!content?.hit_count ? '0' : content?.hit_count}</h5>
         </div>
-      </>
+      </ContentLayout>
     );
   });
 };
-// class ListComponent extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       content: props.content,
-//       index: props.index,
-//     };
-//   }
-//   handleClick = () => {
-//     console.log("들어왔다", "  ", this.state);
-//     this.props.topic.setClickContentIndex(this.state.index);
-//   };
-//   render() {
-//     return (
-//       <>
-//         <p>카테고리</p>
-//         <h2 onClick={this.handleClick}>{this.state.content.title}</h2>
-//         <h4>{this.state.content.content}</h4>
-//         <h5>{this.state.content.user_id}</h5>
-//         <div className="row">
-//           <FaEye></FaEye>
-//           <h5>{this.state.content.hit_count}</h5>
-//           <FaRegThumbsUp></FaRegThumbsUp>
-//           <h5>{this.state.content.like_count}</h5>
-//           <BsChatDots></BsChatDots>
-//           <h5>{this.state.content.hit_count}</h5>
-//           <h5 className="icon">2시간</h5>
-//           <BsBookmark className="bookMark"></BsBookmark>
-//         </div>
-//       </>
-//     );
-//   }
-// }
-
+const ContentLayout = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 0rem 0rem 0rem 0rem;
+    font-family: 1.2em "Fira Sans", sans-serif;
+    p{
+      width: 3rem;
+      display:flex;
+      justify-content:center;
+      border: 0px solid #8885a4;
+      border-radius: 5px;
+      background-color: #ffb367;
+      padding: 4px;
+      margin:0.6rem 0rem 0rem 1.4rem;
+      font-size: 12px;
+      color: #ffffff;
+    }
+    h2{
+      font-weight: bold;
+    }
+    .iconClass{
+      font-family: 1.2em "Fira Sans", sans-serif;
+      margin: 0rem 0.5rem 0rem 0.5rem;
+    }
+    .iconDiv{
+      display:flex;
+      flex-direction:row;
+      justify-content:center;
+      margin: 0.5rem 0rem 0rem 50rem;
+    }
+`;
 export default ListComponent;

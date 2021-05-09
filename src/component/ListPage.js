@@ -11,7 +11,7 @@ import { BsBookmark } from 'react-icons/bs';
 import useStores from '../hooks/useStores';
 import { useObserver } from 'mobx-react';
 import ListComponent from './ListComponent';
-import { Tabs } from 'antd';
+import { Tabs,Button,Input } from 'antd';
 import ListContext from '../contexts/listContext'
 /*
 TODO: 탭에서 defaultActiveKey 안됨 
@@ -49,34 +49,38 @@ const ListPage = () => {
         return (
             <ListLayout>
                 <CategoryLayout>
-                    <TabWapper defaultActiveKey='a_2' onChange={handleTabChange} centered >
-                        {topic &&
-                            topic.map((item, index) => (
-                                <TabPane
-                                    tab={item.name}
-                                    key={`${item.name}_${index+1}`}>
-                                    {tabContent && tabContent.map((data,idx)=>{
-                                        return (
-                                            <ListViewLayout>
-                                                <MainLayout>
-                                                    <Link to='/listRead'>
-                                                        <ListComponent
-                                                            content={
-                                                                data
-                                                            }
-                                                            index={
-                                                                idx
-                                                            }
-                                                            clickTopic={clickTopic}></ListComponent>
-                                                    </Link>
-                                                </MainLayout>
-                                            </ListViewLayout>
-                                        );
-                                    })}
-                                </TabPane>
-                            ))}
-                    </TabWapper>
+                    <div>
+                        {
+                            topic.map((item,idx)=>{
+                                return <TabButton>{item.name}</TabButton>
+                            })
+                        }
+                    
+                    </div>
+                    <SearchInput
+                        placeholder="내용 검색"
+                        type="text"
+                        className="form-control"
+                    // onChange={onChange}
+                    // onPressEnter={handleSearchClick}
+                ></SearchInput>
                 </CategoryLayout>
+                <ContentLayout>
+                {tabContent && tabContent.map((data,idx)=>{
+                    return (
+                        <ListViewLayout>
+                            <MainLayout>
+                                <Link to='/listRead'>
+                                    <ListComponent
+                                        content={data}
+                                        index={idx}
+                                        clickTopic={clickTopic}></ListComponent>
+                                </Link>
+                            </MainLayout>
+                        </ListViewLayout>
+                    );
+                                    })}
+                </ContentLayout>
             </ListLayout>
         );
     });
@@ -85,18 +89,23 @@ const ListLayout = styled.div`
     display: flex;
     flex-direction: column;
 `;
+const ContentLayout = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 2rem 0rem 0rem 0rem;
+`;
 const ListViewLayout = styled.div`
     display: flex;
     flex-direction: row;
-    margin-left: 100px;
-    margin-right: 100px;
+    width: 80rem;
+    margin: 0rem 0rem 0rem 18.5rem;
 `;
 const MainLayout = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1;
-    border: 1px solid gray;
-    height: 180px;
+    border-bottom: 1px solid #d3d3d3;
+    height: 9rem;
     a {
         text-decoration: none;
         color: black;
@@ -130,8 +139,18 @@ const MainLayout = styled.div`
 `;
 const CategoryLayout = styled.div`
     display: flex;
-    margin-left: 100px;
-    margin-right: 100px;
+    width:auto;
+    border:1px solid #d3d3d3;
+    margin:1rem 0rem 0rem 0rem;
+    justify-content:center;
+    padding: 0.4rem;
+    /* margin-left: 100px;
+    margin-right: 100px; */
+    div{
+        display:flex;
+        margin:0rem 50rem 0rem 0rem;
+        flex-direction:row;
+    }
     p {
         flex: 1;
         border-bottom: 1px solid black;
@@ -140,6 +159,21 @@ const CategoryLayout = styled.div`
         align-items: center;
     }
 `;
+const SearchInput = styled(Input)` 
+    width: 15rem;
+`
+const TabButton = styled(Button)` 
+    border:0rem solid;
+    font-family: 1.2em "Fira Sans", sans-serif;
+    font-weight: bold;
+    color: #58b4ae;
+    font-size:20px;
+    text-align:center;
+    width:5rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+`
 const TabWapper = styled(Tabs)`
     width: auto;
     flex:display;
@@ -149,11 +183,19 @@ const TabWapper = styled(Tabs)`
     text-align:center;
 
     .ant-tabs-tab.ant-tabs-tab-active {
-    border-bottom: 2px solid #8885a4 !important;
+    border-bottom: 2px solid #ffb367 !important;
+    background-color:#ffb367 !important;
+    color:#ffffff;
     z-index: 2;
     }
+    .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn{
+        color:#ffffff;
+    }
+    /* .ant-tabs-tab-btn{
+        color:#ffffff;
+    } */
     .ant-tabs-tab{
-        width:10rem;
+        width:20rem;
         text-align:center;
         display:flex;
         justify-content:center;
