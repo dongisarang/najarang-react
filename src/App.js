@@ -4,6 +4,7 @@ import LoginPage from "./component/LoginPage";
 import NaverLogin from "react-naver-login";
 import ListPage from "./component/ListPage";
 import ListRead from "./component/ListRead";
+import ListComponent from './component/ListComponent'
 import CreateContent from "./component/CreateContent";
 import styled from "styled-components";
 import SignUpPage from "./component/SignUpPage";
@@ -22,7 +23,7 @@ const App = () => {
       <Router>
         <Layout>
           <HomeLayout>
-            <Link to="/">HOME</Link>
+            <Link to="/">Najarang</Link>
           </HomeLayout>
           <Link to="/login">
             <Btn onClick={handleSignClick}>회원가입</Btn>
@@ -65,7 +66,7 @@ const App = () => {
 const Layout = styled.div`
   display: flex;
   flex-direction: row;
-  background-color: #8885a4;
+  background-color: #58b4ae;
   padding: 2px 2px 6px 2px;
   a {
     text-decoration: none;
@@ -78,16 +79,18 @@ const HomeLayout = styled.div`
   display: flex;
   margin-left: 10px;
   font-size: 30px;
-  color: #8885a4;
-  background-color: #8885a4;
+  font-family: 1.2em "Fira Sans", sans-serif;
+  font-weight: bold;
+  color: #58b4ae;
+  background-color: #58b4ae;
 `;
 
 const Btn = styled.button`
   margin: 10px 10px 0px 0px;
   background-color: #ffffff;
-  border: 0px solid #8885a4;
+  border: 0px solid #58b4ae;
   border-radius: 5px;
-  background-color: #8885a4;
+  background-color: #58b4ae;
   padding: 5px;
   color: #ffffff;
 `;

@@ -11,6 +11,7 @@ import CreateContent from "./CreateContent";
 import useStores from "../hooks/useStores";
 import { useHistory } from "react-router-dom";
 import MainListComponent from "./MainListComponent";
+import { CrownOutlined } from '@ant-design/icons';
 /*
 TODO: local state로 데이터 관리하기 -> ListRead에 어떻게 보낼지 고민해보기
 */
@@ -79,7 +80,10 @@ const TopLayout = () => {
           })}
         </TopicCircleLayout>
         <HotTopicLayout>
-          <div>핫토픽 리스트</div>
+          <div>
+          <CrownOutlined />
+          <span>핫토픽 리스트</span>
+          </div>
         </HotTopicLayout>
         <ListLayout>
           {contentStore.contentList
@@ -102,7 +106,10 @@ const TopLayout = () => {
             : null}
         </ListLayout>
         <HotTopicLayout>
-          <div>핫토픽 리스트</div>
+          <div>
+            <CrownOutlined />
+            <span>핫토픽 리스트</span>
+            </div>
         </HotTopicLayout>
         <ListLayout>
           {contentStore.contentList
@@ -130,7 +137,7 @@ const TopLayout = () => {
 const MainLayout = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid;
+  border: 1px solid #58b4ae;
   overflow: scroll;
   padding: 1px 1px 1px 0px;
   height: 80rem;
@@ -148,8 +155,8 @@ const BtnLayout = styled.div`
         margin: 10px 10px 0px 0px;
         width: 20%;
         height: 40px;
-        background-color: #8885a4;
-        border: 1px solid #8885a4;
+        background-color: #ffe277;
+        border: 1px solid #ffe277;
         border-radius: 5px;
         padding: 5px;
         color: #ffffff;
@@ -169,7 +176,7 @@ const TopicCircle = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #e2e2e2;
+    background-color: #ffb367;
     border: 0px solid #8885a4;
     width: 100px;
     height: 100px;
@@ -187,10 +194,14 @@ const HotTopicLayout = styled.div`
         width: 600px;
         margin: 60px 300px 0px 0px;
         align-items: center;
-        padding: 0px 0px 2px 20px;
-        font-family: helvetica, sans-serif;
+        padding: 0px 0px 10px 20px;
+        font-family: 1.2em "Fira Sans", sans-serif;
         font-size: 20px;
-        border-bottom: 1px solid;
+        font-weight: bold;
+        border-bottom: 1px solid #d3d3d3;
+    }
+    span {
+      margin: 0rem 0rem 0rem 0.5rem;
     }
 `;
 const ListLayout = styled.div`
@@ -216,11 +227,13 @@ const HotTopicListLayout = styled.div`
     }
     .topicBox {
         border: 0px solid #8885a4;
-        border-radius: 10px;
-        background-color: #e2e2e2;
+        border-radius: 5px;
+        background-color: #ffb367;
         padding: 4px;
+        margin:0.6rem 0rem 0rem 1.4rem;
         font-family: helvetica, sans-serif;
-        font-size: 13px;
+        font-size: 12px;
+        color: #ffffff;
     }
     .topicTitle {
         font-family: helvetica, sans-serif;
@@ -243,7 +256,7 @@ const InputLayout = styled.div`
     display: flex;
     input {
         width: 50%;
-        border: 1px solid #8885a4;
+        border: 1px solid #d3d3d3;
         border-radius: 8px;
         height: 30px;
         margin-top: 100px;
@@ -252,7 +265,7 @@ const InputLayout = styled.div`
 `;
 const InputForm = styled.input`
     width: 100%;
-    align-item: center;
+    align-items: center;
     height: 30px;
 `;
 // const TopicCircle = styled.button`
