@@ -3,47 +3,32 @@
 import styled from 'styled-components';
 import { Link, Route, BrowserRouter as Router } from 'react-router-dom';
 import React, { Component, useState, useEffect, useCallback,useContext } from 'react';
-import ListHeader from './ListHeader';
-import { FaEye } from 'react-icons/fa';
-import { FaRegThumbsUp } from 'react-icons/fa';
-import { BsChatDots } from 'react-icons/bs';
-import { BsBookmark } from 'react-icons/bs';
 import useStores from '../hooks/useStores';
 import { useObserver } from 'mobx-react';
 import ListComponent from './ListComponent';
 import { Tabs,Button,Input } from 'antd';
 import ListContext from '../contexts/listContext'
-/*
-TODO: 탭에서 defaultActiveKey 안됨 
-*/
-const { TabPane } = Tabs;
 const ListPage = () => {
     const { contentStore } = useStores();
-    const [content, setContent] = useState([]);
     const [tabContent, setTabContent] = useState([]);
     const [topic, setTopic] = useState([]);
     const [clickTopic, setClickTopic] = useState(
         contentStore.selectTopic.split('_')[0]
     );
-    const {topicName,setTopicName} = useContext(ListContext);
+    //const {topicName,setTopicName} = useContext(ListContext);
     //토픽에 애초에 본인이 선택한 토픽만 나오도록 해야함
     useEffect(() => {
         async function fetchContent() {
             const data = await contentStore.setContentList(contentStore.selectTopic.split('_')[1]);
-            setContent(data);
             setTabContent(data);
         }
         fetchContent();
         setTopic(contentStore.topicList); //토픽 리스트 셋팅
         contentStore.currentTopic = contentStore.selectTopic.split('_')[0]
     }, []);
-    const handleTabChange = useCallback((activeKey) => {
-        setClickTopic(activeKey.split('_')[0]);
-        setTopicName(activeKey.split('_')[0])
-        contentStore.currentTopic = activeKey.split('_')[0];
-    }, []);
-    useEffect(()=>{
-        console.log('tabContent: ',tabContent)
+    const handleTabClick = useCallback(async(topicId)=>{
+        const data = await contentStore.setContentList(topicId);
+        setTabContent(data)
     },[tabContent])
     return useObserver(() => {
         return (
@@ -52,7 +37,7 @@ const ListPage = () => {
                     <div>
                         {
                             topic.map((item,idx)=>{
-                                return <TabButton>{item.name}</TabButton>
+                                return <TabButton onClick={()=>handleTabClick(item.id)}>{item.name}</TabButton>
                             })
                         }
                     
