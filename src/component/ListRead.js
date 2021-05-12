@@ -33,26 +33,16 @@ const ListRead = () => {
         contents: '',
     });
     const history = useHistory();
-    // const [content,setContent] = useState([]);
-    // const [index,setIndex] = useState([]);
-    // const [list,setList] = useState([]);
-    // const {topicName,setTopicName} = useContext(ListContext);
+    const [content,setContent] = useState([]);
     useEffect(() => {
         setUser(contentStore.getUserEmail());
         function settingList(){
-            // const list = contentStore.getContentList();
-            // const index = contentStore.getClickContentIndex();
-            // setList(contentStore.getContentList().filter((content)=>content.topic.name === contentStore.currentTopic))
-            // setIndex(contentStore.getClickContentIndex());
-            // setContent(list[index])
+            const list = contentStore.getContentList();
+            const index = contentStore.getClickContentIndex();
+            setContent(list[index])
         }
         settingList();
     }, []);
-    //TODO: useEffect로 초기화할때 함수로 넣어주기
-    const list = contentStore.getContentList().filter((content)=>content.topic.name === contentStore.currentTopic);
-    const index = contentStore.getClickContentIndex();
-    const content = list[index];
-    console.log('content', content);
     const handleModify = useCallback(() => {
         setModify(true);
     }, []);
@@ -64,16 +54,12 @@ const ListRead = () => {
             content: inputs.contents,
             topicId: inputs.topic,
         };
-        //   {
-        //     ...content,
-        //     inputs,
-        // }
         const data = await contentStore.modifyContent(content.id,obj,{
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
-    }, [inputs]);
+    }, [inputs,content]);
     const handleModifyCancel = useCallback(() => {
         setModify(false);
     }, []);
@@ -103,7 +89,7 @@ const ListRead = () => {
             //성공했을시
             history.push("/list");
         }
-    },[])
+    },[content])
     return useObserver(() => {
         return (
             <PageLayout>
