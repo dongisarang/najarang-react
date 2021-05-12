@@ -26,23 +26,23 @@ const TopLayout = () => {
   }, []);
   const showModal = useCallback(() => {
     setWrite(true);
-  }, []);
+  }, [write]);
   const [open, setOpen] = useState(false);
   const handleClick = useCallback((index) => {
     contentStore.setClickContentIndex(index);
-  }, []);
+  }, [contentStore]);
   const handleTopicClick = useCallback((name, index) => {
     contentStore.setSelectMainTopic(`${name}_${index}`);
-  }, []);
+  }, [contentStore]);
   const handleCancle = useCallback(() => {
     setWrite(false);
-  }, []);
+  }, [write]);
   const onChange = useCallback((e) => {
     setInput(e.target.value);
-  }, []);
+  }, [input]);
   const handleRowClick = useCallback(async (boardId) => {
     await contentStore.getBoard(boardId);
-  }, []);
+  }, [contentStore]);
   const handleSearchClick = useCallback(() => {
     history.push("/list");
   }, []);
@@ -128,7 +128,7 @@ const TopLayout = () => {
               })
             : null}
         </ListLayout>
-        <CreateContent visible={write} onCancle={handleCancle}></CreateContent>
+        <CreateContent visible={write} onCancle={handleCancle} onClose={handleCancle}></CreateContent>
       </MainLayout>
     );
   });
