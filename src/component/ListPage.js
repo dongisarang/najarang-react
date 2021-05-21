@@ -10,22 +10,52 @@ import { Tabs,Button,Input } from 'antd';
 import ListContext from '../contexts/listContext'
 const ListPage = () => {
     const { contentStore } = useStores();
-    const [tabContent, setTabContent] = useState([]);
     const [topic, setTopic] = useState([]);
     const [clickTopic, setClickTopic] = useState(
         contentStore.selectTopic.split('_')[0]
     );
+    const [states, setStates] = useState({
+        tabContent:[],
+        filterTabContent:[],
+        keyword:''
+    });
+    const {tabContent,filterTabContent,keyword} = states;
     //const {topicName,setTopicName} = useContext(ListContext);
     //토픽에 애초에 본인이 선택한 토픽만 나오도록 해야함
     useEffect(() => {
         async function fetchContent() {
             const data = await contentStore.setContentList(contentStore.selectTopic.split('_')[1]);
-            setTabContent(data);
+            setStates({
+                tabContent:data,
+                filterTabContent:data
+            })
         }
         fetchContent();
         setTopic(contentStore.topicList); //토픽 리스트 셋팅
         contentStore.currentTopic = contentStore.selectTopic.split('_')[0]
     }, []);
+    useEffect(()=>{
+        if(keyword){
+            setStates({
+                ...states,
+                filterTabContent:tabContent.filter((data)=> {
+                    return data.title.includes(keyword)        
+                })
+            })
+        }else{
+            setStates({
+                ...states,
+                filterTabContent:tabContent
+            })
+        }
+        
+    },[tabContent,keyword])
+    const handleSearch = useCallback((e)=>{
+        setStates({
+            ...states,
+            keyword:e.target.value
+        })
+    },[keyword])
     const handleTabClick = useCallback(async(topicId)=>{
         const data = await contentStore.setContentList(topicId);
         setTabContent(data)
@@ -47,11 +77,11 @@ const ListPage = () => {
                         type="text"
                         className="form-control"
                     // onChange={onChange}
-                    // onPressEnter={handleSearchClick}
+                    onPressEnter={handleSearch}
                 ></SearchInput>
                 </CategoryLayout>
                 <ContentLayout>
-                {tabContent && tabContent.map((data,idx)=>{
+                {filterTabContent && filterTabContent.map((data,idx)=>{
                     return (
                         <ListViewLayout>
                             <MainLayout>

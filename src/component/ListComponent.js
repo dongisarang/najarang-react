@@ -17,10 +17,10 @@ const ListComponent = ({ content, index,clickTopic }) => {
   return useObserver(() => {
     return (
       <ContentLayout>
-        <p>{content.topic.name}</p>
-        <h2 onClick={() => handleClick()} style={{margin:"0.5rem 0rem 0rem 1rem"}}>{content.title}</h2>
+        <p>{content?.topic?.name}</p>
+        <h2 onClick={() => handleClick()} style={{margin:"0.5rem 0rem 0rem 1rem"}}>{content?.title}</h2>
         <h4 style={{margin:"0.5rem 0rem 0rem 1rem"}}>
-          {content.content}
+          {content?.content}
           </h4>
         <div className="iconDiv">
           <LikeOutlined style={{margin:"0.3rem 0rem 0rem 0rem"}}/>
