@@ -67,7 +67,10 @@ const ListPage = () => {
     },[keyword])
     const handleTabClick = useCallback(async(topicId)=>{
         const data = await contentStore.setContentList(topicId);
-        setTabContent(data)
+        setStates({
+            ...states,
+            filterTabContent:data
+        })
     },[tabContent])
     return useObserver(() => {
         return (
