@@ -39,11 +39,13 @@ const TopLayout = () => {
   }, [write]);
   const onChange = useCallback((e) => {
     setInput(e.target.value);
+    contentStore.searchKeyword = e.target.value;
   }, [input]);
   const handleRowClick = useCallback(async (boardId) => {
     await contentStore.getBoard(boardId);
   }, [contentStore]);
   const handleSearchClick = useCallback(() => {
+    //TODO: MainPage에서 검색해서 list로 갈때 라우터 이용해서 할 수있는 방법 찾기
     history.push("/list");
   }, []);
   return useObserver(() => {

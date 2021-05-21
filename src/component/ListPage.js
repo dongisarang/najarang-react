@@ -42,7 +42,16 @@ const ListPage = () => {
                     return data.title.includes(keyword)        
                 })
             })
-        }else{
+        }
+        else if(contentStore.searchKeyword){
+            setStates({
+                ...states,
+                filterTabContent:tabContent.filter((data)=> {
+                    return data.title.includes(contentStore.searchKeyword)        
+                })
+            })
+        }
+        else{
             setStates({
                 ...states,
                 filterTabContent:tabContent
