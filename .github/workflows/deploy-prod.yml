@@ -25,10 +25,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm ci and npm run build
+      - name: yarn install and yarn build
         run: |
-          npm ci
-          npm run ci:prod
+          yarn install
+          yarn ci:prod
       - name: deploy prod using script
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
