@@ -36,7 +36,7 @@ if [ "$IS_GITHUB" = true ] ; then
         aws s3 sync dist/${APP_NAME} s3://${PROD_BUCKET_NAME} --metadata-directive REPLACE --acl public-read --exclude "*" --include "assets/*" --region ap-northeast-2 || { echo 'ERROR: s3 js/css sync failed' ; exit 1; }
         aws s3 sync dist/${APP_NAME} s3://${PROD_BUCKET_NAME} --metadata-directive REPLACE --acl public-read --exclude "*" --exclude "assets/*" --include "*.css" --include "*.js" --content-encoding gzip --region ap-northeast-2 || { echo 'ERROR: s3 js/css sync failed' ; exit 1; }
         aws s3 cp dist/${APP_NAME}/index.html s3://${PROD_BUCKET_NAME}/index.html --metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate --content-type text/html --acl public-read --region ap-northeast-2 || { echo 'ERROR: s3 cp index failed' ; exit 1; }
-        aws cloudfront create-invalidation --distribution-id ${PROD_DISTRIBUTION_ID} --paths '/*'
+#         aws cloudfront create-invalidation --distribution-id ${PROD_DISTRIBUTION_ID} --paths '/*'
     fi
 else
     if [ "$DEPLOY" = "stage" ] ; then
@@ -51,6 +51,6 @@ else
         aws s3 --profile lemon sync dist/${APP_NAME} s3://${PROD_BUCKET_NAME} --metadata-directive REPLACE --acl public-read --exclude "*" --include "assets/*" || { echo 'ERROR: s3 js/css sync failed' ; exit 1; }
         aws s3 --profile lemon sync dist/${APP_NAME} s3://${PROD_BUCKET_NAME} --metadata-directive REPLACE --acl public-read --exclude "*" --exclude "assets/*" --include "*.css" --include "*.js" --content-encoding gzip || { echo 'ERROR: s3 js/css sync failed' ; exit 1; }
         aws s3 --profile lemon cp dist/${APP_NAME}/index.html s3://${PROD_BUCKET_NAME}/index.html --metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate --content-type text/html --acl public-read || { echo 'ERROR: s3 cp index failed' ; exit 1; }
-        aws cloudfront create-invalidation --distribution-id ${PROD_DISTRIBUTION_ID} --paths '/*'
+#         aws cloudfront create-invalidation --distribution-id ${PROD_DISTRIBUTION_ID} --paths '/*'
     fi
 fi
