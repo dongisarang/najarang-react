@@ -12,7 +12,7 @@ const contentRepository = {
             const response = await axios.get(path);
             return response;
         } catch (error) {
-            throw Error(error);
+           // throw Error(error);
             return false;
         }
     },
@@ -21,7 +21,7 @@ const contentRepository = {
             const response = await axios.get(`/board/${boarderId}`);
             return response;
         } catch (error) {
-            throw Error(error);
+          //  throw Error(error);
             return false;
         }
     },
@@ -48,7 +48,7 @@ const contentRepository = {
             const response = await axios.get('/topics');
             return response;
         } catch (error) {
-            throw Error(error);
+           // throw Error(error);
             return false;
         }
     },

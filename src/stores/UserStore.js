@@ -4,6 +4,14 @@ const UserStore = observable({
   isLogin: false,
   createAccount: false,
   userToken: "",
+  accessToken:'',
+  refreshToken:'',
+  setAccessToken(userToken) {
+    this.userToken = userToken;
+  },
+  setRefreshToken(userToken) {
+    this.userToken = userToken;
+  },
   setUserToken(userToken) {
     this.userToken = userToken;
   },
