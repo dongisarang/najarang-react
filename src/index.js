@@ -14,9 +14,7 @@ const topic = new TopicList();
 const dataStore = new DataStore();
 //<React.StrictMode> document.getElementById('root')
 setEnv({
-  serviceURL: `${window.location.protocol
-    }//${process.env.REACT_APP_API_BASE_URL || window.location.hostname
-    }`
+  serviceURL: process.env.REACT_APP_API_BASE_URL
 })
 Config.setConfig(getEnv())
 ReactDOM.render(

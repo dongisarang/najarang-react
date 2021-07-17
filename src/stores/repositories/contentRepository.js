@@ -45,7 +45,7 @@ const contentRepository = {
     },
     topicListGet: async () => {
         try {
-            const response = await axios.get('/topics');
+            const response = await API.get('/topics');
             return response;
         } catch (error) {
             // throw Error(error);

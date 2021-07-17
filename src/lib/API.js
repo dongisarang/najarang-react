@@ -25,7 +25,7 @@ API.prototype = {
     if (this.$instance === null) {
       this.$instance = axios.create({
         baseURL: this.$baseURL || Config.serviceURL,
-        withCredentials: true,
+        // withCredentials: true,
       })
     }
     return this.$instance;
@@ -38,6 +38,7 @@ API.prototype = {
   * @return {Promise}
   */
   async get(url, params) {
+    console.log('baseURL: ', this.$baseURL)
     return this.instance.get(url, params || undefined);
   },
   /**

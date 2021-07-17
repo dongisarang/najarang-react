@@ -7,7 +7,9 @@ const Config = (() => {
 
     return {
         setConfig(opts) {
+            console.log('config: ', config, 'opts:', opts)
             config = { ...config, ...opts };
+            console.log('config: ', config)
         },
         get serviceURL() {
             return config.serviceURL;
