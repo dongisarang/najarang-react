@@ -1,18 +1,18 @@
 /** @format */
 
 import axios from 'axios';
-
+import API from '../../lib/API'
 const contentRepository = {
     boardsGet: async (topicId) => {
         let path = `/boards`
-        if(topicId){
-            path += `?topicId=${topicId}`   
+        if (topicId) {
+            path += `?topicId=${topicId}`
         }
         try {
-            const response = await axios.get(path);
+            const response = await API.get(path);
             return response;
         } catch (error) {
-           // throw Error(error);
+            // throw Error(error);
             return false;
         }
     },
@@ -21,7 +21,7 @@ const contentRepository = {
             const response = await axios.get(`/board/${boarderId}`);
             return response;
         } catch (error) {
-          //  throw Error(error);
+            //  throw Error(error);
             return false;
         }
     },
@@ -48,7 +48,7 @@ const contentRepository = {
             const response = await axios.get('/topics');
             return response;
         } catch (error) {
-           // throw Error(error);
+            // throw Error(error);
             return false;
         }
     },
