@@ -45,8 +45,8 @@ const KakaoSignUp = ({ history }) => {
         email: contentStore.getUserEmail(),
         provider: "kakao",
       };
-      const response = await axios.post("/signin", queryObj);
-      if (response.data.msg === "success") {
+      const response = await contentStore.signIn(queryObj);
+      if (response) {
         UserStore.setLogin(true);
         UserStore.setUserToken(response.data.result);
         history.push("/");

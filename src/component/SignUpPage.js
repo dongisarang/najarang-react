@@ -31,9 +31,10 @@ const SignUpPage = () => {
       email: contentStore.getUserEmail(),
       provider: "kakao",
     };
-    axios.post("/signup", queryObj);
+    //axios.post("/signup", queryObj);
+    contentStore.signUp(queryObj);
   };
-  const onRemove = (selectedList, removedItem) => {};
+  const onRemove = (selectedList, removedItem) => { };
   const onChange = (e) => {
     //this.setState({ nick: e.target.value });
     setNick(e.target.value);
@@ -47,9 +48,9 @@ const SignUpPage = () => {
             label="별명"
             name="usernick"
             style={{ margin: "0rem 0rem 0rem 0rem 10rem" }}
-            //   rules={[
-            //     { required: true, message: "Please input your username!" },
-            //   ]}
+          //   rules={[
+          //     { required: true, message: "Please input your username!" },
+          //   ]}
           >
             <InputComponent onChange={onChange}></InputComponent>
           </Form.Item>
