@@ -12,7 +12,7 @@ const contentStore = observable({
     contentList: [],
     selectList: '',
     topicList: [],
-    searchKeyword:'',
+    searchKeyword: '',
     setSelectMainTopic(selectTopic) {
         this.selectTopic = selectTopic;
     },
@@ -37,7 +37,7 @@ const contentStore = observable({
         }
         return false;
     },
-    async deleteContent(boarderId){
+    async deleteContent(boarderId) {
         const response = await contentRepository.boardDelete(
             boarderId
         );
@@ -58,7 +58,7 @@ const contentStore = observable({
     async setContentList(topicId) {
         const response = await contentRepository.boardsGet(topicId);
         if (response?.data?.msg === 'success') {
-            console.log('response.data.list:',response.data.list)
+            console.log('response.data.list:', response.data.list)
             this.contentList = response.data.list;
             return this.contentList;
         }
@@ -68,6 +68,27 @@ const contentStore = observable({
         const response = await contentRepository.boardGet(boarderId);
         if (response?.data?.msg === 'success') {
             console.log('response', response);
+        }
+        return false;
+    },
+    async signIn(queryObj) {
+        const response = await contentRepository.signInCreate(queryObj);
+        if (response?.data?.msg === 'success') {
+            return response;
+        }
+        return false;
+    },
+    async signUp(queryObj) {
+        const response = await contentRepository.signUpCreate(queryObj);
+        if (response?.data?.msg === 'success') {
+            return response;
+        }
+        return false;
+    },
+    async createContent(form) {
+        const response = await contentRepository.createContent(form);
+        if (response?.data?.msg === 'success') {
+            return true;
         }
         return false;
     },

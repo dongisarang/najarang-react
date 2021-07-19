@@ -2,7 +2,7 @@
 
 import styled from 'styled-components';
 import { Link, Route, BrowserRouter as Router } from 'react-router-dom';
-import React, { Component, useEffect, useState, useCallback,useContext } from 'react';
+import React, { Component, useEffect, useState, useCallback, useContext } from 'react';
 import ListHeader from './ListHeader';
 import { FaEye } from 'react-icons/fa';
 import { FaRegThumbsUp } from 'react-icons/fa';
@@ -16,7 +16,7 @@ import { Button, Input, Select } from 'antd';
 import ListContext from '../contexts/listContext';
 import { values } from 'mobx';
 import { useHistory } from "react-router-dom";
-import {FieldTimeOutlined,EyeOutlined,MessageOutlined,LikeOutlined} from '@ant-design/icons';
+import { FieldTimeOutlined, EyeOutlined, MessageOutlined, LikeOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -33,10 +33,10 @@ const ListRead = () => {
         contents: '',
     });
     const history = useHistory();
-    const [content,setContent] = useState([]);
+    const [content, setContent] = useState([]);
     useEffect(() => {
         setUser(contentStore.getUserEmail());
-        function settingList(){
+        function settingList() {
             const list = contentStore.getContentList();
             const index = contentStore.getClickContentIndex();
             setContent(list[index])
@@ -54,12 +54,12 @@ const ListRead = () => {
             content: inputs.contents,
             topicId: inputs.topic,
         };
-        const data = await contentStore.modifyContent(content.id,obj,{
+        const data = await contentStore.modifyContent(content.id, obj, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
-    }, [inputs,content]);
+    }, [inputs, content]);
     const handleModifyCancel = useCallback(() => {
         setModify(false);
     }, []);
@@ -70,11 +70,11 @@ const ListRead = () => {
             [name]: value,
         });
     };
-    const handleContentChange = (e) =>{
+    const handleContentChange = (e) => {
         const { value } = e.target;
         setInputs({
             ...inputs,
-            contents:value
+            contents: value
         })
     }
     const handleSelectChange = (value) => {
@@ -83,13 +83,13 @@ const ListRead = () => {
             topic: value,
         });
     };
-    const handleDelete = useCallback(async()=>{
+    const handleDelete = useCallback(async () => {
         const data = await contentStore.deleteContent(content.id);
-        if(data){
+        if (data) {
             //성공했을시
             history.push("/list");
         }
-    },[content])
+    }, [content])
     return useObserver(() => {
         return (
             <PageLayout>
@@ -113,7 +113,7 @@ const ListRead = () => {
                                 name='title'
                                 placeholder='제목을 쓰세요.'
                                 onChange={handleChange}
-                                // value={title}
+                            // value={title}
                             />
                         </TitleLayout>
 
@@ -122,7 +122,7 @@ const ListRead = () => {
                                 name='contents'
                                 rows={30}
                                 onChange={handleContentChange}
-                                // value={contents}
+                            // value={contents}
                             />
                         </ContentsLayout>
                         <SaveLayout>
@@ -143,12 +143,12 @@ const ListRead = () => {
                             <span>{content?.user_id}</span>
                         </UserLayout>
                         <TimeLayout>
-                            <FieldTimeOutlined style={{margin:"0.3rem 0rem 0rem 1.3rem"}}/>
+                            <FieldTimeOutlined style={{ margin: "0.3rem 0rem 0rem 1.3rem" }} />
                             <span>{content?.created}</span>
-                            <EyeOutlined style={{margin:"0.3rem 0rem 0rem 0.3rem"}}/>
+                            <EyeOutlined style={{ margin: "0.3rem 0rem 0rem 0.3rem" }} />
                             <span>{!content?.hit_count ? '0' : content?.hit_count}</span>
-                            <MessageOutlined style={{margin:"0.3rem 0rem 0rem 0.3rem"}}/>
-                            <span>{!content?.like_count ? '0': content?.like_count}</span>
+                            <MessageOutlined style={{ margin: "0.3rem 0rem 0rem 0.3rem" }} />
+                            <span>{!content?.like_count ? '0' : content?.like_count}</span>
                             {user === content?.user?.email && (
                                 <div
                                     style={{
@@ -164,6 +164,17 @@ const ListRead = () => {
                         </TimeLayout>
                         <ContentsLayout>
                             <span>{content?.content}</span>
+                        </ContentsLayout>
+                        <ContentsLayout>
+                            {
+                                content?.imageUrls && <>
+                                    {
+                                        content.imageUrls.map(url => {
+                                            return <img src={`https://image.najarang.com/${url}`} />
+                                        })
+                                    }
+                                </>
+                            }
                         </ContentsLayout>
                     </>
                 )}
