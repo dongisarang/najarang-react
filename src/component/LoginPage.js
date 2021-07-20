@@ -16,6 +16,7 @@ import SignUpPage from "./SignUpPage";
 import axios from "axios";
 // @inject("topic")
 // @observer
+const { Kakao } = window;
 const KakaoSignUp = ({ history }) => {
   const { contentStore, UserStore } = useStores();
   const [login, setLogin] = useState([]);

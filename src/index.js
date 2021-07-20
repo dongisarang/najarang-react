@@ -9,16 +9,16 @@ import TopicList from "./stores/TopicList";
 import DataStore from "./stores/DataStore";
 import { getEnv, setEnv } from '../src/env';
 import Config from '../src/config'
-const currentTopic = new CurrentTopic();
-const topic = new TopicList();
-const dataStore = new DataStore();
+// const currentTopic = new CurrentTopic();
+// const topic = new TopicList();
+// const dataStore = new DataStore();
 //<React.StrictMode> document.getElementById('root')
 setEnv({
   serviceURL: process.env.REACT_APP_API_BASE_URL
 })
 Config.setConfig(getEnv())
 ReactDOM.render(
-  <Provider currentTopic={currentTopic} topic={topic} dataStore={dataStore}>
+  <Provider >
     <App />
   </Provider>
   ,

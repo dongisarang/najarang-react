@@ -1,9 +1,7 @@
 import axios from 'axios';
 import Config from '../config';
 
-function API() {
-
-}
+function API() { }
 
 API.prototype = {
   $instance: null,
@@ -17,8 +15,8 @@ API.prototype = {
   },
 
   set baseURL(url) {
-    this.$baseURL = url,
-      this.$instance = null;
+    this.$baseURL = url;
+    this.$instance = null;
   },
 
   get instance() {
