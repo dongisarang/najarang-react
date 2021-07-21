@@ -170,7 +170,7 @@ const ListRead = () => {
                                 content?.imageUrls && <>
                                     {
                                         content.imageUrls.map(url => {
-                                            return <img src={`https://image.najarang.com/${url}`} />
+                                            return <img src={`https://image.najarang.com/${url}`} alt="" />
                                         })
                                     }
                                 </>
