@@ -28,7 +28,7 @@ jobs:
       - name: yarn install and yarn build
         run: |
           yarn install
-          yarn ci:prod
+          CI='' yarn ci:prod
       - name: deploy prod using script
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
