@@ -16,26 +16,11 @@ import SignUpPage from "./SignUpPage";
 import axios from "axios";
 // @inject("topic")
 // @observer
-const { Kakao } = window;
 const KakaoSignUp = ({ history }) => {
   const { contentStore, UserStore } = useStores();
   const [login, setLogin] = useState([]);
   const responseKaKao = async (res) => {
-    // this.setState({
-    //   id: res.profile.id,
-    //   provider: "kakao",
-    // });
     res.provider = "kakao";
-    Kakao.Auth.login({
-      success: (auth) => {
-        console.log("success login");
-        contentStore.setUserEmail(res.profile.kakao_account.email);
-        //if (UserStore.createAccount) history.push("/signup");
-      },
-      fail: (err) => {
-        console.log("login fail");
-      },
-    });
     contentStore.setUserEmail(res.profile.kakao_account.email);
     console.log("data: ", res, "  ", contentStore.getUserEmail());
     if (UserStore.createAccount) {
