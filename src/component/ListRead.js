@@ -95,7 +95,7 @@ const ListRead = () => {
             <PageLayout>
                 {modify && (
                     <>
-                        <CategoryLayout>
+                        <NoCategoryLayout>
                             <Select
                                 style={{ width: 120 }}
                                 onChange={handleSelectChange}>
@@ -107,21 +107,23 @@ const ListRead = () => {
                                     );
                                 })}
                             </Select>
-                        </CategoryLayout>
+                        </NoCategoryLayout>
                         <TitleLayout>
-                            <Input
+                            <Inputs
                                 name='title'
                                 placeholder='제목을 쓰세요.'
                                 onChange={handleChange}
+                                styled={{ width: "20rem" }}
                             // value={title}
                             />
                         </TitleLayout>
 
                         <ContentsLayout>
-                            <TextArea
+                            <TextAreas
                                 name='contents'
                                 rows={30}
                                 onChange={handleContentChange}
+                                styled={{ width: "40rem" }}
                             // value={contents}
                             />
                         </ContentsLayout>
@@ -187,11 +189,17 @@ const ButtonComponent = styled(Button)`
     display: flex;
     justify-content: center;
     align-items: center;
+    margin:0rem 0rem 0rem 0.5rem;
 `;
 const PageLayout = styled.div`
     display: flex;
     flex-direction: column;
 `;
+const NoCategoryLayout = styled.div`
+    display: flex;
+    flex-direction: row;
+    margin: 20px 0px 1px 20px;
+`
 const CategoryLayout = styled.div`
     display: flex;
     flex-direction: row;
@@ -212,7 +220,7 @@ const CategoryLayout = styled.div`
 const TitleLayout = styled.div`
     display: flex;
     flex-direction: row;
-    margin: 1rem 0rem 0rem 2.3rem;
+    margin: 10px 0px 10px 20px;
     font-family: 1.2em "Fira Sans", sans-serif;
     font-weight: bold;
 
@@ -257,4 +265,11 @@ const ContentsLayout = styled.div`
         font-size: 15px;
     }
 `;
+const Inputs = styled(Input)`
+width: 40rem;
+`
+const TextAreas = styled(TextArea)`
+width: 40rem;
+`
+
 export default ListRead;
