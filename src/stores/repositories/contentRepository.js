@@ -54,7 +54,7 @@ const contentRepository = {
     },
     signInCreate: async (queryObj) => {
         try {
-            const response = await API.post('/signin', queryObj);
+            const response = await API.post('/sign-in', queryObj);
             return response;
         } catch (error) {
             // throw Error(error);
@@ -63,7 +63,7 @@ const contentRepository = {
     },
     signUpCreate: async (queryObj) => {
         try {
-            const response = await API.post('/signup', queryObj);
+            const response = await API.post('/sign-up', queryObj);
             return response;
         } catch (error) {
             // throw Error(error);

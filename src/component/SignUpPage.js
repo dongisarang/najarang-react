@@ -8,9 +8,10 @@ import axios from "axios";
 import useStores from "../hooks/useStores";
 // @inject("topic")
 // @observer
-const SignUpPage = () => {
+const SignUpPage = ({history}) => {
   const { contentStore, UserStore } = useStores();
   const [nick, setNick] = useState("");
+  const [selectTopic,setSelectTopic] = useState([]);
   const options = [
     { name: "취미", id: 1 },
     { name: "소확행", id: 2 },
@@ -18,21 +19,31 @@ const SignUpPage = () => {
   ];
 
   const onSelect = (selectedList, selectedItem) => {
-    contentStore.addTopic(selectedItem);
+    // contentStore.addTopic(selectedItem);
     contentStore.setSelectTopic(selectedItem);
+    setSelectTopic([
+      ...selectTopic,
+      selectedItem.id
+    ])
   };
-  const handleOk = () => {
-    let interestedTopic = contentStore.getTopic();
-    interestedTopic = JSON.stringify(interestedTopic);
+  const handleOk = async() => {
+    // let interestedTopic = contentStore.getTopic();
+    // interestedTopic = JSON.stringify(interestedTopic);
     // form.getFieldValue("usernick");
     const queryObj = {
-      interestedTopic: interestedTopic,
+      topicList: selectTopic,
       nickname: nick,
       email: contentStore.getUserEmail(),
       provider: "kakao",
     };
     //axios.post("/signup", queryObj);
-    contentStore.signUp(queryObj);
+    const response = await contentStore.signUp(queryObj);
+    if(response){
+      history.push("/");
+    }
+    else{
+      alert('회원가입 오류입니다.')
+    }
   };
   const onRemove = (selectedList, removedItem) => { };
   const onChange = (e) => {
