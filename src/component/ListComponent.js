@@ -38,16 +38,16 @@ const ContentLayout = styled.div`
     margin: 0rem 0rem 0rem 0rem;
     font-family: 1.2em "Fira Sans", sans-serif;
     p{
-      width: 3rem;
+      width: 4rem;
       display:flex;
       justify-content:center;
-      border: 0px solid #8885a4;
+      border: 1px solid #cccccc;
       border-radius: 5px;
-      background-color: #ffb367;
+      background-color: #ffffff;
       padding: 4px;
       margin:0.6rem 0rem 0rem 1.4rem;
       font-size: 12px;
-      color: #ffffff;
+      color: #000000;
     }
     h2{
       font-weight: bold;

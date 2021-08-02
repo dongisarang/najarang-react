@@ -193,7 +193,7 @@ const TabButton = styled(Button)`
     border:0rem solid;
     font-family: 1.2em "Fira Sans", sans-serif;
     font-weight: bold;
-    color: #58b4ae;
+    color: #000000;
     font-size:20px;
     text-align:center;
     width:5rem;
