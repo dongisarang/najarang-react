@@ -127,6 +127,7 @@ const CreateContent = ({ visible, onCancle }) => {
         return (
             <CreateLayout
                 visible={visible}
+                onCancel={handleCancle}
                 footer={[
                     <Button
                         style={{ color: '#FFFFFF', background: '#ffb367', border: "0px solid" }}
@@ -144,7 +145,6 @@ const CreateContent = ({ visible, onCancle }) => {
                     form={form}
                 >
                     <Form.Item
-                        label="topicId"
                         name="topicId"
                     >
                         <SelectLayout>
@@ -162,7 +162,6 @@ const CreateContent = ({ visible, onCancle }) => {
                         </SelectLayout>
                     </Form.Item>
                     <Form.Item
-                        label="title"
                         name="title"
                     >
                         <TitleInput
@@ -173,7 +172,6 @@ const CreateContent = ({ visible, onCancle }) => {
                         />
                     </Form.Item>
                     <Form.Item
-                        label="uploadFile"
                         name="uploadFile"
                     >
                         <Upload {...props} showUploadList={false}>
@@ -181,7 +179,6 @@ const CreateContent = ({ visible, onCancle }) => {
                         </Upload>
                     </Form.Item>
                     <Form.Item
-                        label="content"
                         name="content"
                     >
                         <TextLayout>

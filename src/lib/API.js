@@ -23,7 +23,7 @@ API.prototype = {
     if (this.$instance === null) {
       this.$instance = axios.create({
         baseURL: this.$baseURL || Config.serviceURL,
-        // withCredentials: true,
+        withCredentials: true
       })
     }
     return this.$instance;

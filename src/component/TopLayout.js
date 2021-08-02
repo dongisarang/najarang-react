@@ -111,6 +111,7 @@ const TopLayout = () => {
               </Link>
             );
           })}
+          <Button onClick={showModal} style={{margin:"5rem 0rem 0rem 1rem"}}>글쓰기</Button>
           </TopicComponent>
           </TopicLayoutWapper>
         </TopLayoutWapper>
