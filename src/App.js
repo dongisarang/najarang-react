@@ -13,6 +13,7 @@ import useStores from "./hooks/useStores";
 import { observer, useObserver } from "mobx-react";
 import ListProvider from '../src/component/ListProvider'
 import "antd/dist/antd.css"; // css를 가져온다
+import { Button } from 'antd';
 const App = () => {
   const { UserStore } = useStores();
   const handleSignClick = () => {
@@ -85,7 +86,7 @@ const HomeLayout = styled.div`
   background-color: #58b4ae;
 `;
 
-const Btn = styled.button`
+const Btn = styled(Button)`
   margin: 10px 10px 0px 0px;
   background-color: #ffffff;
   border: 0px solid #58b4ae;
@@ -93,6 +94,9 @@ const Btn = styled.button`
   background-color: #58b4ae;
   padding: 5px;
   color: #ffffff;
+  button:hover{
+    color: #58b4ae;
+  }
 `;
 
 export default App;
