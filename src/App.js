@@ -19,18 +19,20 @@ const App = () => {
   const handleSignClick = () => {
     UserStore.setCreateAccount(true);
   };
+  document.cookie = 'same-site-cookie=foo; SameSite=Lax';
+document.cookie = 'cross-site-cookie=bar; SameSite=None; Secure';
   return useObserver(() => {
     return (
       <Router>
         <Layout>
           <HomeLayout>
-            <Link to="/">Najarang</Link>
+            <Link to="/" style={{color:"black",margin:"0rem 0rem 0rem 28rem"}}>Najarang</Link>
           </HomeLayout>
           <Link to="/login">
             <Btn onClick={handleSignClick}>회원가입</Btn>
           </Link>
           <Link to="/login">
-            {UserStore.getLogin() ? <Btn>로그아웃</Btn> : <Btn>로그인</Btn>}
+            {UserStore.getLogin() ? <LoginBtn>로그아웃</LoginBtn> : <LoginBtn>로그인</LoginBtn>}
           </Link>
         </Layout>
 
@@ -67,7 +69,7 @@ const App = () => {
 const Layout = styled.div`
   display: flex;
   flex-direction: row;
-  background-color: #58b4ae;
+  background-color: #ffffff;
   padding: 2px 2px 6px 2px;
   a {
     text-decoration: none;
@@ -75,30 +77,45 @@ const Layout = styled.div`
   }
 `;
 const HomeLayout = styled.div`
-  flex: 10;
+  flex: 5;
   align-items: center;
   display: flex;
   margin-left: 10px;
   font-size: 30px;
   font-family: 1.2em "Fira Sans", sans-serif;
   font-weight: bold;
-  color: #58b4ae;
-  background-color: #58b4ae;
+  height: 5rem;
+  background-color: #ffffff;
 `;
 
 const Btn = styled(Button)`
-  margin: 10px 10px 0px 0px;
-  background-color: #ffffff;
-  border: 0px solid #58b4ae;
-  border-radius: 5px;
-  background-color: #58b4ae;
-  padding: 5px;
+  margin: 1.5rem 1rem 0rem 0rem;
+  border: 2px solid #ffb367;
+  background-color: #ffb367;
+  padding: 1.2rem;
+  display: flex;
+  justify-content: center;
+  font-family: 1.2em "Fira Sans", sans-serif;
+  align-items: center;
   color: #ffffff;
   button:hover{
     color: #58b4ae;
   }
 `;
-
+const LoginBtn = styled(Button)`
+  margin: 1.5rem 30.5rem 0rem 0rem;
+  border: 2px solid #ffb367;
+  background-color: #ffffff;
+  padding: 1.2rem;
+  display: flex;
+  justify-content: center;
+  font-family: 1.2em "Fira Sans", sans-serif;
+  align-items: center;
+  color: #000000;
+  button:hover{
+    color: #58b4ae;
+  }
+`;
 export default App;
 //background-color:#8885a4;
 //render={props =>{ return( <Login/> )}}

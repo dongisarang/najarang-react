@@ -15,6 +15,31 @@ import { CrownOutlined } from '@ant-design/icons';
 /*
 TODO: local state로 데이터 관리하기 -> ListRead에 어떻게 보낼지 고민해보기
 */
+const HotTopicComponent = ({contentList,handleClick}) =>{
+
+  return(
+    <ListLayout>
+          {contentList
+            ? contentList.map((list, index) => {
+                return (
+                  <HotTopicListLayout>
+                    <Link to="/listRead">
+                      <div
+                        onClick={() => {
+                          handleClick(index);
+                        }}
+                      >
+                        <p className="topicBox">{list.topic.name}</p>
+                        <p className="topicTitle">{list.title}</p>
+                      </div>
+                    </Link>
+                  </HotTopicListLayout>
+                );
+              })
+            : null}
+        </ListLayout>
+  )
+}
 const TopLayout = () => {
   const { contentStore } = useStores();
   const [write, setWrite] = useState(false);
@@ -51,22 +76,28 @@ const TopLayout = () => {
   return useObserver(() => {
     return (
       <MainLayout>
-        <InputLayout>
-          <Input
-            placeholder="관심있는 내용을 검색하세요!"
-            type="text"
-            className="form-control"
-            onChange={onChange}
-            onPressEnter={handleSearchClick}
-          ></Input>
-        </InputLayout>
-        {/* <Link to="/createContent"> */}
-        <BtnLayout>
-          <button onClick={showModal}>자랑글 쓰러 가기</button>
-        </BtnLayout>
-
-        <TopicCircleLayout>
-          {contentStore.topicList.map((topic, index) => {
+        <TopLayoutWapper>
+          <LeftLayoutWapper>
+              <Input
+                placeholder="관심있는 내용을 검색하세요!"
+                type="text"
+                className="form-control"
+                onChange={onChange}
+                onPressEnter={handleSearchClick}
+                style={{margin:"3rem 0rem 0rem 23rem",width:"50%" ,height:"10%",borderRadius:"25px",border:"1px solid"}}
+              ></Input>
+              <HotTopicLayout>
+                <div>
+                <CrownOutlined />
+                <span>핫토픽 리스트</span>
+                </div>
+              </HotTopicLayout>
+              <HotTopicComponent contentList={contentStore.contentList} handleClick={handleClick}/>
+          </LeftLayoutWapper>
+          <TopicLayoutWapper>
+          <TopicComponent>
+            {/* <p className="title">나의 자랑거리</p> */}
+            {contentStore.topicList.map((topic, index) => {
             if (index > 3) return <></>;
             return (
               <Link to="/list">
@@ -75,61 +106,23 @@ const TopLayout = () => {
                     handleTopicClick(topic.name, index+1);
                   }}
                 >
-                  {topic.name}
+                  <p className="topicName">{topic.name}</p>
                 </TopicCircle>
               </Link>
             );
           })}
-        </TopicCircleLayout>
-        <HotTopicLayout>
-          <div>
-          <CrownOutlined />
-          <span>핫토픽 리스트</span>
-          </div>
-        </HotTopicLayout>
-        <ListLayout>
-          {contentStore.contentList
-            ? contentStore.contentList.map((list, index) => {
-                return (
-                  <HotTopicListLayout>
-                    <Link to="/listRead">
-                      <div
-                        onClick={() => {
-                          handleClick(index);
-                        }}
-                      >
-                        <p className="topicBox">{list.topic.name}</p>
-                        <p className="topicTitle">{list.title}</p>
-                      </div>
-                    </Link>
-                  </HotTopicListLayout>
-                );
-              })
-            : null}
-        </ListLayout>
-        <HotTopicLayout>
-          <div>
+          </TopicComponent>
+          </TopicLayoutWapper>
+        </TopLayoutWapper>
+        <BottomLayoutWapper>
+          <HotTopicLayout>
+            <div>
             <CrownOutlined />
             <span>핫토픽 리스트</span>
             </div>
-        </HotTopicLayout>
-        <ListLayout>
-          {contentStore.contentList
-            ? contentStore.contentList.map((list, index) => {
-                return (
-                  <HotTopicListLayout>
-                    <Link to="/listRead">
-                      <MainListComponent
-                        list={list}
-                        index={index}
-                        onClick={handleRowClick}
-                      ></MainListComponent>
-                    </Link>
-                  </HotTopicListLayout>
-                );
-              })
-            : null}
-        </ListLayout>
+          </HotTopicLayout>
+          <HotTopicComponent contentList={contentStore.contentList} handleClick={handleClick}/>
+        </BottomLayoutWapper>
         <CreateContent visible={write} onCancle={handleCancle} onClose={handleCancle}></CreateContent>
       </MainLayout>
     );
@@ -139,66 +132,78 @@ const TopLayout = () => {
 const MainLayout = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid #58b4ae;
-  overflow: scroll;
+  border-top: 1px solid #cccccc;
   padding: 1px 1px 1px 0px;
-  height: 80rem;
+  height:  100%;
 `;
-const BtnLayout = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 60px 0px 0px 0px;
-    button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 10px 10px 0px 0px;
-        width: 20%;
-        height: 40px;
-        background-color: #ffe277;
-        border: 1px solid #ffe277;
-        border-radius: 5px;
-        padding: 5px;
-        color: #ffffff;
-    }
+const TopLayoutWapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 35rem;
+  width: 100%;
 `;
-const TopicCircleLayout = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    a {
-        text-decoration: none;
-        color: white;
-    }
+const TopicLayoutWapper = styled.div`
+  display: flex;
+  flex:2;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+`;
+const LeftLayoutWapper = styled.div`
+  display: flex;
+  flex:3;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+`;
+const TopicComponent = styled.div`
+  width: 38%;
+  margin:1rem 0rem 0rem 0rem;
+  background-color: #f0f0f0;
+  font-family: "Roboto", "Noto Sans KR" ,"AppleSDGothicNeo-Regular" ,"Malgun Gothic" ,"맑은 고딕", "dotum" ,"돋움" ,sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  .title{
+    margin:2rem 0rem 0rem 1rem;
+    /* text-align:center; */
+  }
+`;
+const BottomLayoutWapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 40rem;
+  width: 60%;
+  margin:3rem 0rem 0rem 0rem;
 `;
 const TopicCircle = styled.div`
-    margin: 50px 100px 0px 0px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ffb367;
+    /* background-color: #ffb367; */
     border: 0px solid #8885a4;
-    width: 100px;
-    height: 100px;
-    border-radius: 20px;
-    padding: 10px;
-    color: #ffffff;
+    width: 10rem;
+    height: 3rem;
+    margin:0rem 0rem 0.1rem 0rem;
+    /* padding: 10px; */
+    color: #000000;
+    .topicName{
+      width: 100%;
+      margin:2rem 0rem 0rem 1rem;
+      font-size: 20px;
+    }
+
 `;
 const HotTopicLayout = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     div {
         display: flex;
-        width: 600px;
-        margin: 60px 300px 0px 0px;
+        width: 30rem;
+        margin: 3rem 0rem 0rem 23rem;
         align-items: center;
         padding: 0px 0px 10px 20px;
         font-family: 1.2em "Fira Sans", sans-serif;
-        font-size: 20px;
+        font-size: 17px;
         font-weight: bold;
         border-bottom: 1px solid #d3d3d3;
     }
@@ -209,8 +214,8 @@ const HotTopicLayout = styled.div`
 const ListLayout = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center;
+    align-items: center; */
 `;
 const HotTopicListLayout = styled.div`
     display: flex;
@@ -222,20 +227,19 @@ const HotTopicListLayout = styled.div`
     }
     div {
         display: flex;
-        width: 400px;
-        margin: 0px 500px 0px 0px;
+        width: 25rem;
+        margin: 0rem 0rem 0rem 0rem;
         display: flex;
         flex-direction: row;
     }
     .topicBox {
-        border: 0px solid #8885a4;
+        border: 1px solid #cccccc;
         border-radius: 5px;
-        background-color: #ffb367;
         padding: 4px;
         margin:0.6rem 0rem 0rem 1.4rem;
         font-family: helvetica, sans-serif;
         font-size: 12px;
-        color: #ffffff;
+        color: #000000;
     }
     .topicTitle {
         font-family: helvetica, sans-serif;
@@ -243,49 +247,4 @@ const HotTopicListLayout = styled.div`
         width: auto;
     }
 `;
-const Btn = styled.button`
-    margin: 10px 10px 0px 0px;
-    background-color: #ffffff;
-    border: 1px solid #8885a4;
-    border-radius: 5px;
-    padding: 13px;
-    text-color: #8885a4;
-`;
-const InputLayout = styled.div`
-    justify-content: center;
-    border-width: 2;
-    height: 100px;
-    display: flex;
-    input {
-        width: 50%;
-        border: 1px solid #d3d3d3;
-        border-radius: 8px;
-        height: 30px;
-        margin-top: 100px;
-        justify-content: center;
-    }
-`;
-const InputForm = styled.input`
-    width: 100%;
-    align-items: center;
-    height: 30px;
-`;
-// const TopicCircle = styled.button`
-
-//     justify-content: center;
-//     border-radius: 20px;
-//     background-color:#f4c96b;
-//     width:100%;
-//     height:100px;
-//     font-size: 15px;
-
-// `;
-// const TopicCircleLayout = styled.div`
-//     display:flex;
-//     flex-direction:row;
-//     button{
-//         justify-content: center;
-//         align-items:center;
-//     }
-// `;
 export default TopLayout;
