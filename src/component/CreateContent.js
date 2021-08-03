@@ -50,16 +50,16 @@ const CreateContent = ({ visible, onCancle }) => {
             if (values.uploadFile)
                 form.append('files', values.uploadFile.file.originFileObj);
             try {
-                const response = await API.post('/boards', form, {
-                    headers: {
-                        // Authorization: `Bearer ${token}`,
-                        "Content-Type": 'multipart/form-data'
-                        // 'Accept': 'application/json; charset=utf-8'
-                    },
-                    withCredentials: true
+                // const response = await API.post('/boards', form, {
+                //     headers: {
+                //         // Authorization: `Bearer ${token}`,
+                //         "Content-Type": 'multipart/form-data'
+                //         // 'Accept': 'application/json; charset=utf-8'
+                //     },
+                //     withCredentials: true
 
-                });
-                //const response = await contentStore.createContent(form);
+                // });
+                const response = await contentStore.createContent(form);
                 console.log(response)
                 if (response) {
                     alert('성공!');

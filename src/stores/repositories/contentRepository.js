@@ -2,6 +2,7 @@
 
 import axios from 'axios';
 import API from '../../lib/API'
+axios.defaults.withCredentials = true;
 const contentRepository = {
     boardsGet: async (topicId) => {
         let path = `/boards`
@@ -54,7 +55,7 @@ const contentRepository = {
     },
     signInCreate: async (queryObj) => {
         try {
-            const response = await API.post('/sign-in', queryObj);
+            const response = await API.post('/sign-in', queryObj,{withCredentials: true,crossDomain: true});
             return response;
         } catch (error) {
             // throw Error(error);
