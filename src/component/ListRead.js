@@ -134,23 +134,17 @@ const ListRead = () => {
                     </>
                 )}
                 {modify === false && (
-                    <>
-                        <CategoryLayout>
-                            <span>{content?.topic?.name}</span>
-                        </CategoryLayout>
-                        <TitleLayout>
-                            <h1>{content?.title}</h1>
-                        </TitleLayout>
-                        <UserLayout>
-                            <span>{content?.user_id}</span>
-                        </UserLayout>
-                        <TimeLayout>
-                            <FieldTimeOutlined style={{ margin: "0.3rem 0rem 0rem 1.3rem" }} />
-                            <span>{content?.created}</span>
-                            <EyeOutlined style={{ margin: "0.3rem 0rem 0rem 0.3rem" }} />
-                            <span>{!content?.hit_count ? '0' : content?.hit_count}</span>
-                            <MessageOutlined style={{ margin: "0.3rem 0rem 0rem 0.3rem" }} />
-                            <span>{!content?.like_count ? '0' : content?.like_count}</span>
+                    <Wrapper>
+                        <ReadWrapper>
+                        <p className="category">{content?.topic?.name}</p>
+                        <h1>{content?.title}</h1>
+                        <div style={{display:"flex",flexDirection:"row",borderBottom:"1px solid #cccccc",margin:"0rem 0rem 2rem 0rem",height:"4rem"}}>
+                            <p className="name">{content?.user_id ?? '익명'}</p>
+                            <p className="time">{content?.created}</p>
+                            <EyeOutlined style={{ margin: "0.7rem 0rem 0rem 0.3rem" }} />
+                            <p className="hitCount">{!content?.hit_count ? '0' : content?.hit_count}</p>
+                            <MessageOutlined style={{ margin: "0.7rem 0rem 0rem 0.3rem" }} />
+                            <p className="likeCount">{!content?.like_count ? '0' : content?.like_count}</p>
                             {user === content?.user?.email && (
                                 <div
                                     style={{
@@ -163,28 +157,75 @@ const ListRead = () => {
                                     <ButtonComponent onClick={handleDelete}>삭제</ButtonComponent>
                                 </div>
                             )}
-                        </TimeLayout>
-                        <ContentsLayout>
-                            <span>{content?.content}</span>
-                        </ContentsLayout>
-                        <ContentsLayout>
-                            {
+                        </div>
+                        <div style={{margin:"0rem 0rem 0rem 2rem"}}>
+                        {content?.content}
+                        </div>
+                        <div>
+                        {
                                 content?.imageUrls && <>
                                     {
                                         content.imageUrls.map(url => {
-                                            return <img src={`https://image.najarang.com/${url}`} alt="" />
+                                            return <img src={`https://image.najarang.com/${url}`} alt="" style={{width:"15rem",margin:"2rem 0rem 0rem 0rem"}}/>
                                         })
                                     }
                                 </>
                             }
-                        </ContentsLayout>
-                    </>
+                        </div>
+                        </ReadWrapper>
+                    </Wrapper>
                 )}
             </PageLayout>
         );
     });
 };
-
+const Wrapper = styled.div` 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50rem;
+    margin: 0rem 0rem 0rem 1rem;
+`
+const ReadWrapper = styled.div` 
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    height: 100%;
+    font-family: "Roboto", "Noto Sans KR" ,"AppleSDGothicNeo-Regular" ,"Malgun Gothic" ,"맑은 고딕", "dotum" ,"돋움" ,sans-serif;
+    .category{
+        width: 3rem;
+        display:flex;
+        justify-content:center;
+        border: 0px solid #8885a4;
+        border-radius: 5px;
+        background-color: #ffb367;
+        padding: 4px;
+        margin:2rem 0rem 0rem 2rem;
+        font-size: 12px;
+        color: #ffffff;
+    }
+    h1{
+        margin:1rem 0rem 0rem 2rem;
+    }
+    .name{
+        width: 2rem;
+        margin:0.5rem 0rem 0rem 2rem;
+    }
+    .time{
+        width: auto;
+        margin:0.5rem 0rem 0rem 0.5rem;
+    }
+    .hitCount{
+        width: auto;
+        margin:0.5rem 0rem 0rem 0.5rem;
+    }
+    .likeCount{
+        width: auto;
+        margin:0.5rem 0rem 0rem 0.5rem;
+    }
+`
 const ButtonComponent = styled(Button)`
     display: flex;
     justify-content: center;
@@ -220,8 +261,8 @@ const CategoryLayout = styled.div`
 const TitleLayout = styled.div`
     display: flex;
     flex-direction: row;
-    margin: 10px 0px 10px 20px;
-    font-family: 1.2em "Fira Sans", sans-serif;
+    margin: 0rem 0rem 0rem 1rem;
+    font-family: "Roboto", "Noto Sans KR" ,"AppleSDGothicNeo-Regular" ,"Malgun Gothic" ,"맑은 고딕", "dotum" ,"돋움" ,sans-serif;
     font-weight: bold;
 
 `;
