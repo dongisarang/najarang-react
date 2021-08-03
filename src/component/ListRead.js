@@ -54,11 +54,22 @@ const ListRead = () => {
             content: inputs.contents,
             topicId: inputs.topic,
         };
-        const data = await contentStore.modifyContent(content.id, obj, {
+        let form = new FormData();
+            console.log('values:', values)
+            form.append('id', content.id);
+            form.append('title', inputs.title);
+            form.append('content', inputs.contents);
+            form.append('topicId', inputs.topic);
+            if (inputs?.uploadFile)
+                form.append('files', inputs?.uploadFile.file.originFileObj);
+        const response = await contentStore.modifyContent(content.id, form, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
+        if(response){
+            history.push("/list");
+        }
     }, [inputs, content]);
     const handleModifyCancel = useCallback(() => {
         setModify(false);
@@ -94,11 +105,13 @@ const ListRead = () => {
         return (
             <PageLayout>
                 {modify && (
-                    <>
-                        <NoCategoryLayout>
+                    <Wrapper>
+                        <ReadWrapper>
                             <Select
-                                style={{ width: 120 }}
-                                onChange={handleSelectChange}>
+                                style={{ width: 120 ,margin:"2rem 0rem 0rem 2rem"}}
+                                onChange={handleSelectChange}
+                                value={content?.topic?.name}
+                            >
                                 {contentStore.topicList.map((topic) => {
                                     return (
                                         <Option value={topic.id}>
@@ -107,31 +120,26 @@ const ListRead = () => {
                                     );
                                 })}
                             </Select>
-                        </NoCategoryLayout>
-                        <TitleLayout>
                             <Inputs
                                 name='title'
                                 placeholder='제목을 쓰세요.'
                                 onChange={handleChange}
-                                styled={{ width: "20rem" }}
-                            // value={title}
+                                style={{ width: "20rem",margin:"1rem 0rem 0rem 2rem" }}
+                                // value={title}
                             />
-                        </TitleLayout>
-
-                        <ContentsLayout>
                             <TextAreas
                                 name='contents'
                                 rows={30}
                                 onChange={handleContentChange}
-                                styled={{ width: "40rem" }}
+                                style={{ width: "40rem",margin:"1rem 0rem 0rem 2rem" }}
                             // value={contents}
                             />
-                        </ContentsLayout>
-                        <SaveLayout>
-                            <Button onClick={handleModifyClick}>저장</Button>
-                            <Button onClick={handleModifyCancel}>취소</Button>
-                        </SaveLayout>
-                    </>
+                            <div style={{display:"flex",margin:"1rem 0rem 0rem 2rem",flexDirection:"row"}}>
+                                <ModifyButton onClick={handleModifyClick}>저장</ModifyButton>
+                                <ModifyCancleButton onClick={handleModifyCancel}>취소</ModifyCancleButton>
+                            </div>
+                        </ReadWrapper>
+                    </Wrapper>
                 )}
                 {modify === false && (
                     <Wrapper>
@@ -236,75 +244,25 @@ const PageLayout = styled.div`
     display: flex;
     flex-direction: column;
 `;
-const NoCategoryLayout = styled.div`
+const ModifyButton = styled(Button)`
     display: flex;
-    flex-direction: row;
-    margin: 20px 0px 1px 20px;
-`
-const CategoryLayout = styled.div`
-    display: flex;
-    flex-direction: row;
-    margin: 20px 0px 1px 20px;
-    span {
-        width: 3rem;
-        display:flex;
-        justify-content:center;
-        border: 0px solid #8885a4;
-        border-radius: 5px;
-        background-color: #ffb367;
-        padding: 4px;
-        margin:0.6rem 0rem 0rem 1.4rem;
-        font-size: 12px;
-        color: #ffffff;
-    }
+    justify-content: center;
+    align-items: center;
+    width: 5rem;
+    border: 2px solid #ffb367;
+    background-color: #ffb367;
+    color:#ffffff;
+    margin:0rem 0rem 0rem 0.5rem;
 `;
-const TitleLayout = styled.div`
+const ModifyCancleButton = styled(Button)`
     display: flex;
-    flex-direction: row;
-    margin: 0rem 0rem 0rem 1rem;
-    font-family: "Roboto", "Noto Sans KR" ,"AppleSDGothicNeo-Regular" ,"Malgun Gothic" ,"맑은 고딕", "dotum" ,"돋움" ,sans-serif;
-    font-weight: bold;
-
-`;
-const UserLayout = styled.div`
-    display: flex;
-    flex-direction: row;
-    margin: 0px 0px 10px 20px;
-    span {
-        font-size: 1px;
-    }
-`;
-const SaveLayout = styled.div`
-    display: flex;
-    flex-direction: row;
-    margin: 20px 0px 1px 20px;
-`;
-const TimeLayout = styled.div`
-    display: flex;
-    flex-direction: row;
-    margin: 0px 0px 0px 20px;
-    padding: 0px 0px 20px 0px;
-    border-bottom: 1px solid #d3d3d3;
-    width: 100rem;
-    span{
-        font-family: 1.2em "Fira Sans", sans-serif;
-        color: #a9a9a9;
-        margin: 0rem 0rem 0rem 0.3rem;
-    }
-`;
-const ContentsLayout = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin: 0px 0px 10px 20px;
-    height: 15rem;
-    width: 100rem;
-    border-bottom: 1px solid #d3d3d3;
-    font-family: 1.2em "Fira Sans", sans-serif;
-
-    span {
-        margin: 20px 0px 10px 20px;
-        font-size: 15px;
-    }
+    justify-content: center;
+    align-items: center;
+    width: 5rem;
+    border: 2px solid #ffb367;
+    background-color: #ffffff;
+    color:#000000;
+    margin:0rem 0rem 0rem 0.5rem;
 `;
 const Inputs = styled(Input)`
 width: 40rem;

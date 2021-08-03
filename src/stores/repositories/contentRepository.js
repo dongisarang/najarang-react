@@ -37,7 +37,7 @@ const contentRepository = {
     },
     boardsUpdate: async (boarderId, queryObj) => {
         try {
-            const response = await API.put(`/board/${boarderId}`, queryObj);
+            const response = await API.put(`/boards/${boarderId}`, queryObj);
             return response;
         } catch (error) {
             throw Error(error);
