@@ -1,7 +1,7 @@
 /** @format */
 
-import { observable } from 'mobx';
-import contentRepository from './repositories/contentRepository';
+import { observable } from 'mobx'
+import contentRepository from './repositories/contentRepository'
 const contentStore = observable({
     flag: true,
     topic: '',
@@ -14,119 +14,131 @@ const contentStore = observable({
     topicList: [],
     searchKeyword: '',
     setSelectMainTopic(selectTopic) {
-        this.selectTopic = selectTopic;
+        this.selectTopic = selectTopic
     },
     getSelectMainTopic() {
-        return this.selectTopic;
+        return this.selectTopic
     },
     async setTopicList() {
-        const response = await contentRepository.topicListGet();
+        const response = await contentRepository.topicListGet()
         if (response?.data?.msg === 'success') {
-            this.topicList = response.data.list;
-            return true;
+            this.topicList = response.data.list
+            return true
         }
-        return false;
+        return false
     },
     async modifyContent(boarderId, queryObj) {
         const response = await contentRepository.boardsUpdate(
             boarderId,
-            queryObj
-        );
+            queryObj,
+        )
         if (response?.data.msg === 'success') {
-            return true;
+            return true
         }
-        return false;
+        return false
     },
     async deleteContent(boarderId) {
-        const response = await contentRepository.boardDelete(
-            boarderId
-        );
+        const response = await contentRepository.boardDelete(boarderId)
         if (response?.data.msg === 'success') {
-            return true;
+            return true
         }
-        return false;
+        return false
     },
     getTopicList() {
-        return this.topicList;
+        return this.topicList
     },
     setSelectList(selectList) {
-        this.selectList = selectList;
+        this.selectList = selectList
     },
     getSelectList() {
-        return this.selectList;
+        return this.selectList
     },
     async setContentList(topicId) {
-        const response = await contentRepository.boardsGet(topicId);
+        const response = await contentRepository.boardsGet(topicId)
         if (response?.data?.msg === 'success') {
             console.log('response.data.list:', response.data.list)
-            this.contentList = response.data.list;
-            return this.contentList;
+            this.contentList = response.data.list
+            return this.contentList
         }
-        return false;
+        return false
     },
     async getBoard(boarderId) {
-        const response = await contentRepository.boardGet(boarderId);
+        const response = await contentRepository.boardGet(boarderId)
         if (response?.data?.msg === 'success') {
-            console.log('response', response);
+            console.log('response', response)
         }
-        return false;
+        return false
     },
     async signIn(queryObj) {
-        const response = await contentRepository.signInCreate(queryObj);
+        const response = await contentRepository.signInCreate(queryObj)
         if (response?.data?.msg === 'success') {
-            return response;
+            return response
         }
-        return false;
+        return false
     },
     async signUp(queryObj) {
-        const response = await contentRepository.signUpCreate(queryObj);
+        const response = await contentRepository.signUpCreate(queryObj)
         if (response?.data?.msg === 'success') {
-            return response;
+            return response
         }
-        return false;
+        return false
     },
     async createContent(form) {
-        const response = await contentRepository.createContent(form);
+        const response = await contentRepository.createContent(form)
         if (response?.data?.msg === 'success') {
-            return true;
+            return true
         }
-        return false;
+        return false
+    },
+    async createReply(queryObj) {
+        const response = await contentRepository.replyCreate(queryObj)
+        if (response?.data?.msg === 'success') {
+            return true
+        }
+        return false
+    },
+    async GetReply(boardId) {
+        const response = await contentRepository.ReplyGet(boardId)
+        if (response?.data?.msg === 'success') {
+            return true
+        }
+        return false
     },
     getContentList() {
-        return this.contentList;
+        return this.contentList
     },
     getData() {
-        return this.dataList;
+        return this.dataList
     },
     //고른 토픽들 넣는 함수
     addTopic(data) {
-        const len = this.topic.length;
-        this.topic[len] = data.name;
+        const len = this.topic.length
+        this.topic[len] = data.name
     },
     setSelectTopic(selectTopic) {
-        this.selectTopic = selectTopic;
+        this.selectTopic = selectTopic
     },
     getTopic() {
-        return this.selectTopic;
+        return this.selectTopic
     },
     setUserEmail(userEmail) {
-        this.userEmail = userEmail;
+        this.userEmail = userEmail
     },
     getUserEmail() {
-        return this.userEmail;
+        return this.userEmail
     },
     setClickContentIndex(clickContentIndex) {
-        this.clickContentIndex = clickContentIndex;
+        this.clickContentIndex = clickContentIndex
     },
     getClickContentIndex() {
-        return this.clickContentIndex;
+        return this.clickContentIndex
     },
     setCurrentTopic(data) {
-        this.currentTopic = data;
+        this.currentTopic = data
     },
     getCurrentTopic(topic) {
-        return this.currentTopic;
+        return this.currentTopic
     },
-});
-export default contentStore;
+})
+export default contentStore
 //export {contentStore}
