@@ -97,10 +97,10 @@ const contentStore = observable({
         }
         return false
     },
-    async GetReply(boardId) {
+    async getReply(boardId) {
         const response = await contentRepository.ReplyGet(boardId)
         if (response?.data?.msg === 'success') {
-            return true
+            return response.data.list
         }
         return false
     },

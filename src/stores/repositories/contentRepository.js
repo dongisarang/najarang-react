@@ -101,7 +101,7 @@ const contentRepository = {
     },
     ReplyGet: async (boardId) => {
         try {
-            const response = await API.get(`/comments?boardId${boardId}`)
+            const response = await API.get(`/comments?boardId=${boardId}`)
             return response
         } catch (error) {
             // throw Error(error);
