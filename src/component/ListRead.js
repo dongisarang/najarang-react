@@ -158,7 +158,8 @@ const ListRead = () => {
         const data = await contentStore.createReply(query)
         if (data) {
             //성공했을시
-            console.log('성공')
+            let replyRes = await contentStore.getReply(content.id)
+            setReply(replyRes)
         }
     })
     return useObserver(() => {
