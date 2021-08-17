@@ -35,6 +35,29 @@ const { TextArea } = Input
 /*
 TODO: 수정 / 취소
 */
+const ReplyComponent = ({ handleReplyChange, handleReplySave }) => {
+    return (
+        <ReplyCmpWrapper>
+            <TextArea
+                name="content"
+                rows={5}
+                onChange={handleReplyChange}
+                placeholder="댓글을 입력해주세요"
+            />
+            <Button
+                style={{
+                    margin: '6rem 0rem 0rem 0.5rem',
+                    background: '#ffb367',
+                    border: '1px solid #ffb367',
+                    color: '#ffffff',
+                }}
+                onClick={handleReplySave}
+            >
+                저장
+            </Button>
+        </ReplyCmpWrapper>
+    )
+}
 const ListRead = () => {
     const { contentStore, UserStore } = useStores()
     const [user, setUser] = useState()
@@ -43,6 +66,7 @@ const ListRead = () => {
         topic: '',
         title: '',
         contents: '',
+        reply: '',
     })
     const history = useHistory()
     const [content, setContent] = useState([])
@@ -91,6 +115,7 @@ const ListRead = () => {
     const handleModifyCancel = useCallback(() => {
         setModify(false)
     }, [])
+    //TODO: handleChange 부분 하나로 합치기
     const handleChange = (e) => {
         const { value, name } = e.target
         setInputs({
@@ -103,6 +128,13 @@ const ListRead = () => {
         setInputs({
             ...inputs,
             contents: value,
+        })
+    }
+    const handleReplyChange = (e) => {
+        const { value } = e.target
+        setInputs({
+            ...inputs,
+            reply: value,
         })
     }
     const handleSelectChange = (value) => {
@@ -118,6 +150,17 @@ const ListRead = () => {
             history.push('/list')
         }
     }, [content])
+    const handleReplySave = useCallback(async () => {
+        const query = {
+            content: inputs.reply,
+            boardId: content.id,
+        }
+        const data = await contentStore.createReply(query)
+        if (data) {
+            //성공했을시
+            console.log('성공')
+        }
+    })
     return useObserver(() => {
         return (
             <PageLayout>
@@ -255,6 +298,10 @@ const ListRead = () => {
                                 )}
                             </div>
                             <ReplyWrapper>
+                                <ReplyComponent
+                                    handleReplyChange={handleReplyChange}
+                                    handleReplySave={handleReplySave}
+                                />
                                 {reply.map((list) => {
                                     return (
                                         <div className="replyWrapper">
@@ -321,6 +368,16 @@ const ReadWrapper = styled.div`
         margin: 0.5rem 0rem 0rem 0.5rem;
     }
 `
+const ReplyCmpWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    margin: 8rem 0rem 0rem 0rem;
+    font-family: 'Roboto', 'Noto Sans KR', 'AppleSDGothicNeo-Regular',
+        'Malgun Gothic', '맑은 고딕', 'dotum', '돋움', sans-serif;
+`
 const ReplyWrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -329,7 +386,6 @@ const ReplyWrapper = styled.div`
     height: auto;
     margin: 7rem 0rem 0rem 0rem;
     border-bottom: 1px solid #f0f0f0;
-    border-top: 1px solid #f0f0f0;
     font-family: 'Roboto', 'Noto Sans KR', 'AppleSDGothicNeo-Regular',
         'Malgun Gothic', '맑은 고딕', 'dotum', '돋움', sans-serif;
     .replyWrapper {
