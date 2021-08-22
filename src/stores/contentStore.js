@@ -97,6 +97,16 @@ const contentStore = observable({
         }
         return false
     },
+    async updateReply(commentId, queryObj) {
+        const response = await contentRepository.replyUpdate(
+            commentId,
+            queryObj,
+        )
+        if (response?.data?.msg === 'success') {
+            return true
+        }
+        return false
+    },
     async getReply(boardId) {
         const response = await contentRepository.ReplyGet(boardId)
         if (response?.data?.msg === 'success') {

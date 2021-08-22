@@ -99,6 +99,15 @@ const contentRepository = {
             return false
         }
     },
+    replyUpdate: async (commentId, queryObj) => {
+        try {
+            const response = await API.put(`/comments/${commentId}`, queryObj)
+            return response
+        } catch (error) {
+            // throw Error(error);
+            return false
+        }
+    },
     ReplyGet: async (boardId) => {
         try {
             const response = await API.get(`/comments?boardId=${boardId}`)

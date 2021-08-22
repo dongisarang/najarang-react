@@ -29,35 +29,12 @@ import {
     LikeOutlined,
 } from '@ant-design/icons'
 import { List } from 'antd/lib/form/Form'
-
+import Reply from './Reply'
 const { Option } = Select
 const { TextArea } = Input
 /*
 TODO: 수정 / 취소
 */
-const ReplyComponent = ({ handleReplyChange, handleReplySave }) => {
-    return (
-        <ReplyCmpWrapper>
-            <TextArea
-                name="content"
-                rows={5}
-                onChange={handleReplyChange}
-                placeholder="댓글을 입력해주세요"
-            />
-            <Button
-                style={{
-                    margin: '6rem 0rem 0rem 0.5rem',
-                    background: '#ffb367',
-                    border: '1px solid #ffb367',
-                    color: '#ffffff',
-                }}
-                onClick={handleReplySave}
-            >
-                저장
-            </Button>
-        </ReplyCmpWrapper>
-    )
-}
 const ListRead = () => {
     const { contentStore, UserStore } = useStores()
     const [user, setUser] = useState()
@@ -71,12 +48,16 @@ const ListRead = () => {
     const history = useHistory()
     const [content, setContent] = useState([])
     const [reply, setReply] = useState([])
+    const [userSelf, setUserSelf] = useState(false)
     useEffect(() => {
         setUser(contentStore.getUserEmail())
         async function settingList() {
             const list = await contentStore.getContentList()
             const index = await contentStore.getClickContentIndex()
             setContent(list[index])
+            if (user === content?.user?.email) {
+                setUserSelf(true)
+            }
             if (list[index]) {
                 let replyRes = await contentStore.getReply(list[index].id)
                 setReply(replyRes)
@@ -298,22 +279,13 @@ const ListRead = () => {
                                     </>
                                 )}
                             </div>
-                            <ReplyWrapper>
-                                <ReplyComponent
-                                    handleReplyChange={handleReplyChange}
-                                    handleReplySave={handleReplySave}
-                                />
-                                {reply.map((list) => {
-                                    return (
-                                        <div className="replyWrapper">
-                                            <span>{list.content}</span>
-                                            <span className="replyDate">
-                                                {list.created}
-                                            </span>
-                                        </div>
-                                    )
-                                })}
-                            </ReplyWrapper>
+                            <Reply
+                                handleReplyChange={handleReplyChange}
+                                handleReplySave={handleReplySave}
+                                reply={reply}
+                                setReply={setReply}
+                                userSelf={userSelf}
+                            />
                         </ReadWrapper>
                     </Wrapper>
                 )}
@@ -369,39 +341,6 @@ const ReadWrapper = styled.div`
         margin: 0.5rem 0rem 0rem 0.5rem;
     }
 `
-const ReplyCmpWrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-    height: auto;
-    margin: 8rem 0rem 0rem 0rem;
-    font-family: 'Roboto', 'Noto Sans KR', 'AppleSDGothicNeo-Regular',
-        'Malgun Gothic', '맑은 고딕', 'dotum', '돋움', sans-serif;
-`
-const ReplyWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    height: auto;
-    margin: 7rem 0rem 0rem 0rem;
-    border-bottom: 1px solid #f0f0f0;
-    font-family: 'Roboto', 'Noto Sans KR', 'AppleSDGothicNeo-Regular',
-        'Malgun Gothic', '맑은 고딕', 'dotum', '돋움', sans-serif;
-    .replyWrapper {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        height: 5rem;
-        margin: 0.5rem 0rem 0rem 0.5rem;
-        border-bottom: 1px solid #f0f0f0;
-    }
-    .replyDate {
-        margin: 0.5rem 0rem 0rem 0.5rem;
-    }
-`
-
 const ButtonComponent = styled(Button)`
     display: flex;
     justify-content: center;
